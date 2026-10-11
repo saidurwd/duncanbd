@@ -10,7 +10,7 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $this->call(RolesAndPermissionsSeeder::class);
+        $this->call([RolesAndPermissionsSeeder::class, DocumentCategorySeeder::class]);
 
         $seed = config('admin.seed_super_admin');
 

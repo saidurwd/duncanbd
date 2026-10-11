@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DocumentCategoryController;
+use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
@@ -52,5 +54,21 @@ Route::middleware(['auth', 'admin.access'])->group(function () {
         Route::post('/', [RedirectController::class, 'store'])->name('store');
         Route::delete('/not-found', [RedirectController::class, 'clearNotFound'])->name('not-found.clear');
         Route::delete('/{redirect}', [RedirectController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('documents')->name('documents.')->middleware('permission:documents.investor.manage|documents.general.manage')->group(function () {
+        Route::get('/', [DocumentController::class, 'index'])->name('index');
+        Route::get('/create', [DocumentController::class, 'create'])->name('create');
+        Route::post('/', [DocumentController::class, 'store'])->name('store');
+        Route::get('/categories', [DocumentCategoryController::class, 'index'])->middleware('permission:documents.investor.manage')->name('categories.index');
+        Route::post('/categories', [DocumentCategoryController::class, 'store'])->middleware('permission:documents.investor.manage')->name('categories.store');
+        Route::put('/categories/{category}', [DocumentCategoryController::class, 'update'])->middleware('permission:documents.investor.manage')->name('categories.update');
+        Route::delete('/categories/{category}', [DocumentCategoryController::class, 'destroy'])->middleware('permission:documents.investor.manage')->name('categories.destroy');
+        Route::get('/{document}/edit', [DocumentController::class, 'edit'])->name('edit');
+        Route::put('/{document}', [DocumentController::class, 'update'])->name('update');
+        Route::post('/{document}/publish', [DocumentController::class, 'publish'])->name('publish');
+        Route::post('/{document}/unpublish', [DocumentController::class, 'unpublish'])->name('unpublish');
+        Route::get('/{document}/versions/{version}', [DocumentController::class, 'download'])->whereNumber('version')->name('download');
+        Route::delete('/{document}', [DocumentController::class, 'destroy'])->name('destroy');
     });
 });

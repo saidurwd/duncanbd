@@ -62,6 +62,13 @@
                             </a>
                         </li>
                     @endcan
+                    @canany(['documents.investor.manage', 'documents.general.manage'])
+                        <li class="nav-item">
+                            <a href="{{ route('admin.documents.index') }}" class="nav-link @if (request()->routeIs('admin.documents.*')) active @endif">
+                                <i class="nav-icon bi bi-file-earmark-pdf"></i><p>Documents</p>
+                            </a>
+                        </li>
+                    @endcanany
                     @canany(['media.manage', 'media.view'])
                         <li class="nav-item">
                             <a href="{{ route('admin.media.index') }}" class="nav-link @if (request()->routeIs('admin.media.*')) active @endif">
