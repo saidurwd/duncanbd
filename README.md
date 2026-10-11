@@ -23,4 +23,4 @@ two-factor authentication on first sign-in and change the seed password.
 
 ## Status
 
-Phases 2–6 are built: foundation, core CMS, content modules, public frontend, and engagement (enquiries, careers, newsletter, retention). Starter page structure: `php artisan db:seed --class=StarterContentSeeder`. See the plan for what remains.
+Phases 2–7 are built: foundation, core CMS, content modules, public frontend, engagement, and legacy content migration (`docs/content-migration.md`). Starter page structure: `php artisan db:seed --class=StarterContentSeeder`.
