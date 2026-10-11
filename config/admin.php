@@ -3,7 +3,7 @@
 return [
 
     // Non-obvious admin URL prefix; override in .env (ADMIN_PATH).
-    'path' => env('ADMIN_PATH', 'dbbd-console'),
+    'path' => env('ADMIN_PATH', 'admin'),
 
     // Optional comma-separated IP/CIDR allowlist, e.g. office/VPN ranges. Empty = allow all.
     'ip_allowlist' => array_filter(array_map('trim', explode(',', (string) env('ADMIN_IP_ALLOWLIST', '')))),
