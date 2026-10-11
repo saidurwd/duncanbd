@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MediaController;
+use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\RedirectController;
 use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\SettingsController;
 use Illuminate\Support\Facades\Route;
@@ -37,5 +39,18 @@ Route::middleware(['auth', 'admin.access'])->group(function () {
         Route::get('/{page}/revisions', [PageController::class, 'revisions'])->name('revisions');
         Route::post('/{page}/revisions/{revision}/restore', [PageController::class, 'restore'])->name('restore');
         Route::delete('/{page}', [PageController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('menus')->name('menus.')->middleware('permission:menus.manage')->group(function () {
+        Route::get('/', [MenuController::class, 'index'])->name('index');
+        Route::get('/{location}', [MenuController::class, 'edit'])->name('edit');
+        Route::put('/{location}', [MenuController::class, 'update'])->name('update');
+    });
+
+    Route::prefix('redirects')->name('redirects.')->middleware('permission:seo.manage')->group(function () {
+        Route::get('/', [RedirectController::class, 'index'])->name('index');
+        Route::post('/', [RedirectController::class, 'store'])->name('store');
+        Route::delete('/not-found', [RedirectController::class, 'clearNotFound'])->name('not-found.clear');
+        Route::delete('/{redirect}', [RedirectController::class, 'destroy'])->name('destroy');
     });
 });

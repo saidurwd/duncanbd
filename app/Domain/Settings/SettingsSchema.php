@@ -48,6 +48,12 @@ class SettingsSchema
                     'analytics_id' => ['label' => 'Analytics measurement ID', 'type' => 'text', 'rules' => ['nullable', 'string', 'max:40', 'regex:/^[A-Za-z0-9-]+$/'], 'help' => 'Loads only after the visitor consents.'],
                 ],
             ],
+            'seo' => [
+                'label' => 'SEO & robots',
+                'fields' => [
+                    'robots_txt' => ['label' => 'robots.txt (leave blank for the default)', 'type' => 'textarea', 'rules' => ['nullable', 'string', 'max:2000'], 'help' => 'The sitemap line is appended automatically.'],
+                ],
+            ],
             'mail' => [
                 'label' => 'Outgoing mail (SMTP)',
                 'fields' => [

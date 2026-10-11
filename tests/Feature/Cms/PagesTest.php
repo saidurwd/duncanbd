@@ -166,7 +166,7 @@ it('renders the editor forms and listing', function () {
     $editor = cmsUser(Role::Editor);
     $page = Page::create(['title' => "Owner's page", 'slug' => 'owners', 'path' => 'owners', 'status' => PageStatus::Draft, 'blocks' => []]);
 
-    $this->actingAs($editor)->get(route('admin.pages.index'))->assertOk()->assertSee("Owner&#039;s page", false);
+    $this->actingAs($editor)->get(route('admin.pages.index'))->assertOk()->assertSee('Owner&#039;s page', false);
     $this->actingAs($editor)->get(route('admin.pages.create'))->assertOk()->assertSee('data-block-editor', false);
     $this->actingAs($editor)->get(route('admin.pages.edit', $page))->assertOk()->assertSee('In review');
 });

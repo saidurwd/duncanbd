@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Domain\Cms\Events\PageContentChanged;
+use App\Domain\Cms\Events\PagePathChanged;
+use App\Listeners\HandlePagePathChanged;
+use App\Listeners\InvalidatePublicCaches;
 use App\Listeners\LogAuthActivity;
 use Carbon\CarbonImmutable;
 use Illuminate\Auth\Events\Failed;
@@ -23,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
         Date::use(CarbonImmutable::class);
 
         Event::listen([Login::class, Logout::class, Failed::class], LogAuthActivity::class);
+
+        Event::listen(PagePathChanged::class, HandlePagePathChanged::class);
+        Event::listen([PageContentChanged::class, PagePathChanged::class], InvalidatePublicCaches::class);
 
         Password::defaults(fn () => Password::min(12)->mixedCase()->numbers()->uncompromised());
     }

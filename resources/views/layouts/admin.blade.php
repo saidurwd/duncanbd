@@ -48,6 +48,20 @@
                             </a>
                         </li>
                     @endcan
+                    @can('menus.manage')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.menus.index') }}" class="nav-link @if (request()->routeIs('admin.menus.*')) active @endif">
+                                <i class="nav-icon bi bi-list-nested"></i><p>Menus</p>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('seo.manage')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.redirects.index') }}" class="nav-link @if (request()->routeIs('admin.redirects.*')) active @endif">
+                                <i class="nav-icon bi bi-signpost-split"></i><p>Redirects &amp; 404s</p>
+                            </a>
+                        </li>
+                    @endcan
                     @canany(['media.manage', 'media.view'])
                         <li class="nav-item">
                             <a href="{{ route('admin.media.index') }}" class="nav-link @if (request()->routeIs('admin.media.*')) active @endif">

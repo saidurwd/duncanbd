@@ -23,4 +23,4 @@ two-factor authentication on first sign-in and change the seed password.
 
 ## Status
 
-Phase 2 (Foundation & security baseline) — in progress. See the phase checklist in the plan.
+Phase 2 (foundation) and Phase 3 (core CMS: media, pages, menus, SEO, cache) are built. See the plan for what remains.
