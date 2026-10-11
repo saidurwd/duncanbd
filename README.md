@@ -23,4 +23,4 @@ two-factor authentication on first sign-in and change the seed password.
 
 ## Status
 
-Phase 2 (foundation) and Phase 3 (core CMS: media, pages, menus, SEO, cache) are built. See the plan for what remains.
+Phases 2–4 are built: foundation, core CMS, and content modules (documents, news, businesses & estates, people, timeline). Starter page structure: `php artisan db:seed --class=StarterContentSeeder`. See the plan for what remains.
