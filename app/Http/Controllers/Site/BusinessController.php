@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Site;
 
 use App\Domain\Business\Models\Business;
+use App\Domain\Cms\Models\Page;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 
@@ -10,6 +11,11 @@ class BusinessController extends Controller
 {
     public function show(string $business): View
     {
+        // An editor-built page at /what-we-do/{slug} takes precedence over the plain business template.
+        if ($page = Page::live()->where('path', 'what-we-do/'.$business)->first()) {
+            return app(PageController::class)->renderPage($page);
+        }
+
         $model = Business::with(['logo.media', 'estates' => fn ($q) => $q->where('is_active', true)])
             ->where('is_active', true)->where('slug', $business)->firstOrFail();
 

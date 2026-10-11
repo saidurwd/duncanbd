@@ -33,6 +33,11 @@ class PageController extends Controller
         return $this->render($page, preview: true);
     }
 
+    public function renderPage(Page $page): View
+    {
+        return $this->render($page);
+    }
+
     private function render(Page $page, bool $preview = false): View
     {
         $blocks = $this->withDefaults($page->blocks ?? []);
