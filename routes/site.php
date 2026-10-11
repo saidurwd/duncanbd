@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Site\BusinessController;
 use App\Http\Controllers\Site\DocumentController;
+use App\Http\Controllers\Site\NewsController;
 use App\Http\Controllers\Site\PageController;
 use App\Http\Controllers\Site\SeoController;
 use Illuminate\Support\Facades\Route;
@@ -16,6 +18,12 @@ Route::middleware('site')->group(function () {
     Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
     Route::get('/documents/{category}', [DocumentController::class, 'index'])->where('category', '[a-z0-9\-]+')->name('documents.category');
     Route::get('/documents/{category}/{slug}', [DocumentController::class, 'show'])->where(['category' => '[a-z0-9\-]+', 'slug' => '[a-z0-9\-]+'])->name('documents.show');
+    Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/news/{year}/{slug}', [NewsController::class, 'show'])->whereNumber('year')->where('slug', '[a-z0-9\-]+')->name('news.show');
+
+    Route::get('/what-we-do/{business}', [BusinessController::class, 'show'])->where('business', '[a-z0-9\-]+')->name('business.show');
+    Route::get('/what-we-do/{business}/estates/{estate}', [BusinessController::class, 'estate'])->where(['business' => '[a-z0-9\-]+', 'estate' => '[a-z0-9\-]+'])->name('business.estate');
+
     // Downloads must hit the app every time (counter, expiry); never cache them.
     Route::get('/download/{uuid}', [DocumentController::class, 'download'])->whereUuid('uuid')->withoutMiddleware(CacheResponse::class)->name('documents.download');
 

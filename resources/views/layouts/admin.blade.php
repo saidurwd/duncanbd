@@ -69,6 +69,22 @@
                             </a>
                         </li>
                     @endcanany
+                    @can('news.edit')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.posts.index') }}" class="nav-link @if (request()->routeIs('admin.posts.*')) active @endif">
+                                <i class="nav-icon bi bi-newspaper"></i><p>News &amp; press</p>
+                            </a>
+                        </li>
+                    @endcan
+                    @can('pages.publish')
+                        @foreach (App\Domain\Content\ContentResource::all() as $res)
+                            <li class="nav-item">
+                                <a href="{{ route('admin.content.index', $res->key) }}" class="nav-link @if (request()->is(config('admin.path').'/content/'.$res->key.'*')) active @endif">
+                                    <i class="nav-icon bi bi-collection"></i><p>{{ $res->label }}</p>
+                                </a>
+                            </li>
+                        @endforeach
+                    @endcan
                     @canany(['media.manage', 'media.view'])
                         <li class="nav-item">
                             <a href="{{ route('admin.media.index') }}" class="nav-link @if (request()->routeIs('admin.media.*')) active @endif">

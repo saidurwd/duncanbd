@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\ContentResourceController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DocumentCategoryController;
 use App\Http\Controllers\Admin\DocumentController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\RedirectController;
 use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\SettingsController;
@@ -71,4 +73,26 @@ Route::middleware(['auth', 'admin.access'])->group(function () {
         Route::get('/{document}/versions/{version}', [DocumentController::class, 'download'])->whereNumber('version')->name('download');
         Route::delete('/{document}', [DocumentController::class, 'destroy'])->name('destroy');
     });
+
+    Route::prefix('news')->name('posts.')->middleware('permission:news.edit')->group(function () {
+        Route::get('/', [PostController::class, 'index'])->name('index');
+        Route::get('/create', [PostController::class, 'create'])->name('create');
+        Route::post('/', [PostController::class, 'store'])->name('store');
+        Route::post('/categories', [PostController::class, 'storeCategory'])->name('categories.store');
+        Route::get('/{post}/edit', [PostController::class, 'edit'])->name('edit');
+        Route::put('/{post}', [PostController::class, 'update'])->name('update');
+        Route::post('/{post}/publish', [PostController::class, 'publish'])->name('publish');
+        Route::post('/{post}/unpublish', [PostController::class, 'unpublish'])->name('unpublish');
+        Route::delete('/{post}', [PostController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('content/{resource}')->name('content.')->where(['resource' => 'businesses|estates|people|timeline'])
+        ->middleware('permission:pages.publish')->group(function () {
+            Route::get('/', [ContentResourceController::class, 'index'])->name('index');
+            Route::get('/create', [ContentResourceController::class, 'create'])->name('create');
+            Route::post('/', [ContentResourceController::class, 'store'])->name('store');
+            Route::get('/{id}/edit', [ContentResourceController::class, 'edit'])->whereNumber('id')->name('edit');
+            Route::put('/{id}', [ContentResourceController::class, 'update'])->whereNumber('id')->name('update');
+            Route::delete('/{id}', [ContentResourceController::class, 'destroy'])->whereNumber('id')->name('destroy');
+        });
 });
