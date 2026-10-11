@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\RedirectController;
 use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VacancyController;
 use Illuminate\Support\Facades\Route;
 
@@ -137,5 +138,16 @@ Route::middleware(['auth', 'admin.access'])->group(function () {
         Route::get('/', [PrivacyController::class, 'index'])->name('index');
         Route::get('/export', [PrivacyController::class, 'export'])->name('export');
         Route::delete('/erase', [PrivacyController::class, 'erase'])->name('erase');
+    });
+
+    Route::prefix('users')->name('users.')->middleware('permission:users.manage')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/', [UserController::class, 'store'])->name('store');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        Route::put('/{user}/password', [UserController::class, 'setPassword'])->name('password');
+        Route::post('/{user}/reset-link', [UserController::class, 'sendResetLink'])->name('reset-link');
+        Route::post('/{user}/reset-2fa', [UserController::class, 'resetTwoFactor'])->name('reset-2fa');
     });
 });

@@ -44,6 +44,11 @@ class EnsureAdminAccess
 
         $onSecurityPage = $request->routeIs('admin.security*') || $request->is('user/*') || $request->is('two-factor-*');
 
+        // An administrator-issued or temporary password must be replaced before anything else is reachable.
+        if ($user->must_change_password && ! $onSecurityPage && ! $request->routeIs('admin.security*') && ! $request->is('user/password')) {
+            return redirect()->route('admin.security')->with('status', 'Please choose a new password to continue.');
+        }
+
         if (config('admin.require_2fa') && ! $user->hasTwoFactorEnabled() && ! $onSecurityPage) {
             return redirect()->route('admin.security')
                 ->with('status', 'Two-factor authentication is mandatory. Please set it up to continue.');

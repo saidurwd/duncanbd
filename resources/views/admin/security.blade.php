@@ -3,6 +3,21 @@
 @section('title', 'My security')
 
 @section('content')
+    <div class="card mb-3">
+        <div class="card-header"><h2 class="card-title">Change password</h2></div>
+        <div class="card-body">
+            @if (session('status') === 'password-updated')<div class="alert alert-success" role="status">Password updated.</div>@endif
+            @if ($user->must_change_password)<div class="alert alert-warning" role="alert">You must choose a new password before continuing.</div>@endif
+            <form method="POST" action="{{ route('user-password.update') }}" class="row g-3">
+                @csrf @method('PUT')
+                <div class="col-12"><label for="current_password" class="form-label">Current password</label><input id="current_password" type="password" name="current_password" class="form-control @error('current_password', 'updatePassword') is-invalid @enderror" autocomplete="current-password" required>@error('current_password', 'updatePassword')<div class="invalid-feedback">{{ $message }}</div>@enderror</div>
+                <div class="col-md-6"><label for="password" class="form-label">New password</label><input id="password" type="password" name="password" class="form-control @error('password', 'updatePassword') is-invalid @enderror" autocomplete="new-password" required>@error('password', 'updatePassword')<div class="invalid-feedback">{{ $message }}</div>@enderror<div class="form-text">At least 12 characters, mixed case, a number; known-breached passwords are rejected.</div></div>
+                <div class="col-md-6"><label for="password_confirmation" class="form-label">Confirm new password</label><input id="password_confirmation" type="password" name="password_confirmation" class="form-control" autocomplete="new-password" required></div>
+                <div class="col-12"><button class="btn btn-primary">Update password</button></div>
+            </form>
+        </div>
+    </div>
+
     <div class="card">
         <div class="card-header"><h2 class="card-title">Two-factor authentication</h2></div>
         <div class="card-body">

@@ -30,6 +30,9 @@ class UpdateUserPassword implements UpdatesUserPasswords
 
         $user->forceFill([
             'password' => Hash::make($input['password']),
+            'must_change_password' => false,
         ])->save();
+
+        activity('identity')->causedBy($user)->performedOn($user)->log('password changed by user');
     }
 }

@@ -12,6 +12,9 @@ return [
     // with it off, admins are not forced to enrol (those who have enrolled are still challenged at sign-in).
     'require_2fa' => (bool) env('ADMIN_REQUIRE_2FA', true),
 
+    // Plan §10: Super Admin is limited to named individuals (at most this many accounts).
+    'max_super_admins' => (int) env('ADMIN_MAX_SUPER_ADMINS', 2),
+
     // Idle session timeout (minutes) for the admin panel.
     'idle_timeout' => (int) env('ADMIN_IDLE_TIMEOUT', 30),
 

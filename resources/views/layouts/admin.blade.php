@@ -99,6 +99,9 @@
                             </a>
                         </li>
                     @endcanany
+                    @can('users.manage')
+                        <li class="nav-item"><a href="{{ route('admin.users.index') }}" class="nav-link @if (request()->routeIs('admin.users.*')) active @endif"><i class="nav-icon bi bi-person-gear"></i><p>Users &amp; roles</p></a></li>
+                    @endcan
                     @can('settings.manage')
                         <li class="nav-item"><a href="{{ route('admin.privacy.index') }}" class="nav-link @if (request()->routeIs('admin.privacy.*')) active @endif"><i class="nav-icon bi bi-person-lock"></i><p>Privacy tools</p></a></li>
                         <li class="nav-item">
