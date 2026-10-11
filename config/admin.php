@@ -8,6 +8,10 @@ return [
     // Optional comma-separated IP/CIDR allowlist, e.g. office/VPN ranges. Empty = allow all.
     'ip_allowlist' => array_filter(array_map('trim', explode(',', (string) env('ADMIN_IP_ALLOWLIST', '')))),
 
+    // Mandatory two-factor authentication for every admin (plan §10). Only ever set to false on a local/demo machine:
+    // with it off, admins are not forced to enrol (those who have enrolled are still challenged at sign-in).
+    'require_2fa' => (bool) env('ADMIN_REQUIRE_2FA', true),
+
     // Idle session timeout (minutes) for the admin panel.
     'idle_timeout' => (int) env('ADMIN_IDLE_TIMEOUT', 30),
 

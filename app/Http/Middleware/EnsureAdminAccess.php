@@ -44,7 +44,7 @@ class EnsureAdminAccess
 
         $onSecurityPage = $request->routeIs('admin.security*') || $request->is('user/*') || $request->is('two-factor-*');
 
-        if (! $user->hasTwoFactorEnabled() && ! $onSecurityPage) {
+        if (config('admin.require_2fa') && ! $user->hasTwoFactorEnabled() && ! $onSecurityPage) {
             return redirect()->route('admin.security')
                 ->with('status', 'Two-factor authentication is mandatory. Please set it up to continue.');
         }

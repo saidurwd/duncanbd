@@ -5,7 +5,7 @@ Phase 8 environment and must be re-verified on production.
 
 ## Application
 - [ ] `APP_ENV=production`, `APP_DEBUG=false`, unique `APP_KEY`, `php artisan about` shows caches built **(QA)**
-- [ ] Every admin user has 2FA; default, test and demo accounts removed; ≤ 2 Super Admins
+- [ ] `ADMIN_REQUIRE_2FA` is true (the default) and every admin user has 2FA; default, test and demo accounts removed; ≤ 2 Super Admins
 - [ ] `ADMIN_PATH` changed, `ADMIN_IP_ALLOWLIST` set, `/<ADMIN_PATH>` is 404 from outside **(QA)**
 - [ ] `TRUSTED_PROXIES` set; a request through Cloudflare logs the real visitor IP
 - [ ] `storage:link` exists; `storage/app/private` is not web-accessible (`/storage/private/...` is 404) **(QA)**

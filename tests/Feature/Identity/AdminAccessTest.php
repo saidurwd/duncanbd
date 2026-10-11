@@ -100,3 +100,13 @@ it('rejects a one-time code that has already been used (replay protection)', fun
     expect($provider->verify($secret, $code))->toBeTrue()
         ->and($provider->verify($secret, $code))->toBeFalse();
 });
+
+it('only skips the forced 2FA enrolment when explicitly switched off', function () {
+    $user = adminWith2fa(false);
+
+    expect(config('admin.require_2fa'))->toBeTrue();   // secure by default
+    $this->actingAs($user)->get($this->admin)->assertRedirect(route('admin.security'));
+
+    config(['admin.require_2fa' => false]);
+    $this->actingAs($user)->get($this->admin)->assertOk();
+});
