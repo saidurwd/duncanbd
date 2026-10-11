@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Cache;
 
 class MenuRepository
 {
+    /** @var array<string, list<array<string, mixed>>> per-request copy */
+    private array $memo = [];
+
     /**
      * Active items as a two-level tree: [['label', 'url', 'target', 'children' => [...]]].
      *
@@ -15,7 +18,7 @@ class MenuRepository
      */
     public function tree(MenuLocation $location): array
     {
-        return Cache::remember("menu.{$location->value}", 3600, function () use ($location) {
+        return $this->memo[$location->value] ??= Cache::remember("menu.{$location->value}", 3600, function () use ($location) {
             $menu = Menu::where('location', $location->value)->with(['items.page'])->first();
 
             if (! $menu) {
@@ -37,6 +40,7 @@ class MenuRepository
 
     public function forget(): void
     {
+        $this->memo = [];
         foreach (MenuLocation::cases() as $location) {
             Cache::forget("menu.{$location->value}");
         }

@@ -4,9 +4,11 @@ use App\Domain\Cms\RedirectManager;
 use App\Http\Middleware\EnsureAdminAccess;
 use App\Http\Middleware\ProtectFormsFromSpam;
 use App\Http\Middleware\SecurityHeaders;
+use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Csp\AddCspHeaders;
@@ -31,11 +33,16 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->web(append: [SecurityHeaders::class, AddCspHeaders::class]);
+        // Global, so every response gets the headers: 404s and 419/500 error pages included (route-group
+        // middleware never runs when no route matches or an earlier middleware throws).
+        $middleware->append([SecurityHeaders::class, AddCspHeaders::class]);
+
+        // Forms carry a hidden _token; the JS-readable XSRF-TOKEN cookie is not needed and only widens the surface.
+        $middleware->web(replace: [PreventRequestForgery::class => VerifyCsrfToken::class]);
 
         // Public pages: no session or cookies, so full responses are safe to cache for all guests.
-        // Headers are added outside the cache layer so they are never served stale.
-        $middleware->group('site', [SecurityHeaders::class, AddCspHeaders::class, CacheResponse::class]);
+        // Security headers are global (outside the cache layer) so they are never served stale.
+        $middleware->group('site', [CacheResponse::class]);
 
         $middleware->alias([
             'admin.access' => EnsureAdminAccess::class,

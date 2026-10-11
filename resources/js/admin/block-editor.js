@@ -29,8 +29,9 @@ function fieldInput(field, value, onChange) {
         ]);
         input.value = value ?? '';
     } else {
-        const type = field.type === 'number' || field.type === 'media' ? 'number' : field.type === 'url' ? 'url' : 'text';
-        input = el('input', { ...common, type });
+        // URL fields accept site-relative paths too, which type=url would reject in the browser.
+        const type = field.type === 'number' || field.type === 'media' ? 'number' : 'text';
+        input = el('input', { ...common, type, ...(field.type === 'url' ? { placeholder: 'https://… or /page-path', inputmode: 'url' } : {}) });
         input.value = value ?? '';
     }
     input.addEventListener('input', () => onChange(input.value === '' ? null : input.value));

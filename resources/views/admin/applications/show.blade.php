@@ -10,7 +10,7 @@
                 <dt class="col-sm-3">Name</dt><dd class="col-sm-9">{{ $application->name }}</dd>
                 <dt class="col-sm-3">Email</dt><dd class="col-sm-9"><a href="mailto:{{ $application->email }}">{{ $application->email }}</a></dd>
                 <dt class="col-sm-3">Phone</dt><dd class="col-sm-9">{{ $application->phone }}</dd>
-                <dt class="col-sm-3">CV</dt><dd class="col-sm-9"><a href="{{ route('admin.applications.cv', $application) }}">{{ $application->cv_original_name }}</a> ({{ Illuminate\Support\Number::fileSize($application->cv_size) }})</dd>
+                <dt class="col-sm-3">CV</dt><dd class="col-sm-9"><a href="{{ route('admin.applications.cv', $application) }}">{{ $application->cv_original_name }}</a> ({{ App\Support\Format::fileSize($application->cv_size) }})</dd>
                 <dt class="col-sm-3">Consent</dt><dd class="col-sm-9">{{ $application->consent_at->timezone('Asia/Dhaka')->format('d M Y H:i') }}</dd>
                 <dt class="col-sm-3">Cover letter</dt><dd class="col-sm-9 pre-wrap text-break">{{ $application->cover_letter }}</dd>
             </dl>

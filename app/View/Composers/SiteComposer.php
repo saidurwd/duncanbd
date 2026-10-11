@@ -41,6 +41,7 @@ class SiteComposer
         $view->with('site', [
             'name' => $name,
             'tagline' => $get('identity', 'tagline'),
+            'default_description' => $get('seo', 'default_description') ?: $get('identity', 'tagline') ?: $name.' — corporate website',
             'group_name' => $get('identity', 'group_name'),
             'group_url' => $get('identity', 'group_url'),
             'email' => $get('contact', 'email'),

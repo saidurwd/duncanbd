@@ -39,6 +39,13 @@ return [
             'report' => false,
         ],
 
+        // Backup archives. Swap for an S3-compatible disk in production (BACKUP_DISKS=backups,s3).
+        'backups' => [
+            'driver' => 'local',
+            'root' => storage_path('app/backups'),
+            'throw' => true,
+        ],
+
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

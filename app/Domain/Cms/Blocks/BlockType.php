@@ -169,7 +169,8 @@ enum BlockType: string
             $rules[$key] = match ($field['type']) {
                 'text', 'textarea' => [...$base, 'string', 'max:'.($field['max'] ?? 255)],
                 'richtext' => [...$base, 'string', 'max:50000'],
-                'url' => [...$base, 'url:http,https', 'max:500'],
+                // Absolute http(s) URL or a site-relative path ("/investors"); never javascript:, data: or protocol-relative.
+                'url' => [...$base, 'regex:/^(https?:\/\/[^\s]+|\/(?!\/)[^\s]*)$/i', 'max:500'],
                 'media' => [...$base, 'integer', 'exists:media_items,id'],
                 'number' => [...$base, 'numeric'],
                 'select' => [...$base, 'in:'.implode(',', array_keys($field['options']))],

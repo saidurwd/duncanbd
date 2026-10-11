@@ -13,7 +13,7 @@
             @foreach ($categories as $c) | <a href="{{ route('news.index', ['category' => $c->slug]) }}">{{ $c->name }}</a>@endforeach
         </nav>
         <div class="cards">
-            @forelse ($posts as $post)@include('site.news._card', ['post' => $post])@empty<p>No stories yet.</p>@endforelse
+            @forelse ($posts as $post)@include('site.news._card', ['post' => $post, 'level' => 2])@empty<p>No stories yet.</p>@endforelse
         </div>
         {{ $posts->links() }}
     </div>

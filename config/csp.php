@@ -1,10 +1,9 @@
 <?php
 
 use Spatie\Csp\Directive;
+use Spatie\Csp\Keyword;
 use Spatie\Csp\Nonce\RandomString;
 use Spatie\Csp\Presets\Basic;
-
-// use Spatie\Csp\Keyword;
 
 return [
 
@@ -20,6 +19,10 @@ return [
      * Register additional global CSP directives here.
      */
     'directives' => [
+        // Clickjacking protection that CSP's default-src does not cover (X-Frame-Options is kept for old browsers).
+        [Directive::FRAME_ANCESTORS, Keyword::SELF],
+        // Inline SVG data URIs (Bootstrap form-select arrows etc.). Images cannot execute script.
+        [Directive::IMG, 'data:'],
         // Click-to-load video (privacy-enhanced YouTube domain).
         [Directive::FRAME, 'https://www.youtube-nocookie.com'],
         // Google Analytics: the script is only injected after the visitor accepts cookies, and

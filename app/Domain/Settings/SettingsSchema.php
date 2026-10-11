@@ -67,6 +67,7 @@ class SettingsSchema
             'seo' => [
                 'label' => 'SEO & robots',
                 'fields' => [
+                    'default_description' => ['label' => 'Default meta description', 'type' => 'textarea', 'rules' => ['nullable', 'string', 'max:170'], 'help' => 'Used on pages without their own description (max 170 characters).'],
                     'robots_txt' => ['label' => 'robots.txt (leave blank for the default)', 'type' => 'textarea', 'rules' => ['nullable', 'string', 'max:2000'], 'help' => 'The sitemap line is appended automatically.'],
                 ],
             ],

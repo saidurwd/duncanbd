@@ -7,13 +7,13 @@ use App\Domain\Documents\Enums\Visibility;
 use App\Domain\Identity\Models\User;
 use App\Domain\Media\Models\MediaItem;
 use App\Support\ClearsPublicCache;
+use App\Support\Format;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Number;
 use Illuminate\Support\Str;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
@@ -101,7 +101,7 @@ class Document extends Model
 
     public function sizeLabel(): string
     {
-        return Number::fileSize((int) $this->currentVersion?->size);
+        return Format::fileSize((int) $this->currentVersion?->size);
     }
 
     public function getActivitylogOptions(): LogOptions

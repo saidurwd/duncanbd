@@ -47,6 +47,12 @@ class DocumentController extends Controller
         $document = Document::live()->with('currentVersion')->where('uuid', $uuid)->firstOrFail();
         $version = $document->currentVersion ?? abort(404);
 
+        // A missing file is a 404 (and worth a log line), never a 500 with an exception page.
+        if (! Storage::disk('local')->exists($version->path)) {
+            report(new \RuntimeException("Document file missing on disk: {$version->path}"));
+            abort(404);
+        }
+
         $document->increment('download_count');
 
         return Storage::disk('local')->download($version->path, $version->original_name, [

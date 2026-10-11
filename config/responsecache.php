@@ -2,7 +2,6 @@
 
 use App\Support\GuestsOnlyCacheProfile;
 use Spatie\ResponseCache\Hasher\DefaultHasher;
-use Spatie\ResponseCache\Replacers\CsrfTokenReplacer;
 use Spatie\ResponseCache\Serializers\JsonSerializer;
 
 return [
@@ -120,6 +119,6 @@ return [
      * must always implement the Replacer interface.
      */
     'replacers' => [
-        CsrfTokenReplacer::class,
+        // None: cached pages are public, session-less and contain no CSRF token (forms live on uncached routes).
     ],
 ];

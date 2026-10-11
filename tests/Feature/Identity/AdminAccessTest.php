@@ -5,6 +5,8 @@ use App\Domain\Identity\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Laravel\Fortify\Contracts\TwoFactorAuthenticationProvider;
+use PragmaRX\Google2FA\Google2FA;
 use Spatie\Activitylog\Models\Activity;
 
 beforeEach(function () {
@@ -87,4 +89,14 @@ it('records failed and successful logins in the audit log', function () {
 
     expect(Activity::where('log_name', 'auth')->pluck('description')->all())
         ->toContain('login failed', 'login');
+});
+
+it('rejects a one-time code that has already been used (replay protection)', function () {
+    $google2fa = new Google2FA;
+    $secret = $google2fa->generateSecretKey();
+    $code = $google2fa->getCurrentOtp($secret);
+    $provider = app(TwoFactorAuthenticationProvider::class);
+
+    expect($provider->verify($secret, $code))->toBeTrue()
+        ->and($provider->verify($secret, $code))->toBeFalse();
 });

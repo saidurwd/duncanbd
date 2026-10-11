@@ -8,6 +8,7 @@ use App\Domain\Cms\Models\Page;
 use App\Domain\Media\Models\MediaItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Str;
 
 class PageController extends Controller
 {
@@ -45,9 +46,34 @@ class PageController extends Controller
             'blocks' => $blocks,
             'media' => $media,
             'preview' => $preview,
+            'autoDescription' => $this->excerpt($blocks),
             'ogImage' => $og?->getFirstMediaUrl('file', 'large') ?: null,
             'breadcrumbs' => $page->path === 'home' ? [] : $this->breadcrumbs($page),
         ]);
+    }
+
+    /**
+     * First readable text on the page, used as the meta description when the editor has not written one.
+     *
+     * @param  list<array<string, mixed>>  $blocks
+     */
+    private function excerpt(array $blocks): ?string
+    {
+        foreach ($blocks as $block) {
+            $text = match ($block['type']) {
+                'hero' => $block['data']['intro'] ?? null,
+                'rich_text' => $block['data']['body'] ?? null,
+                'cta_band' => $block['data']['text'] ?? null,
+                default => null,
+            };
+            $text = trim((string) preg_replace('/\s+/', ' ', html_entity_decode(strip_tags((string) $text))));
+
+            if ($text !== '') {
+                return Str::limit($text, 160);
+            }
+        }
+
+        return null;
     }
 
     /**

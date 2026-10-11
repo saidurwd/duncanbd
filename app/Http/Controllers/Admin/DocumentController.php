@@ -106,6 +106,7 @@ class DocumentController extends Controller
         Gate::authorize('update', $document);
 
         $file = $document->versions()->where('version', $version)->firstOrFail();
+        abort_unless(Storage::disk('local')->exists($file->path), 404);
 
         return Storage::disk('local')->download($file->path, $file->original_name, [
             'X-Content-Type-Options' => 'nosniff',

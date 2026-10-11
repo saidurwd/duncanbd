@@ -170,3 +170,15 @@ it('renders the editor forms and listing', function () {
     $this->actingAs($editor)->get(route('admin.pages.create'))->assertOk()->assertSee('data-block-editor', false);
     $this->actingAs($editor)->get(route('admin.pages.edit', $page))->assertOk()->assertSee('In review');
 });
+
+it('accepts site-relative and https links in blocks but rejects script-capable ones', function () {
+    $editor = cmsUser(Role::Editor);
+    $cta = fn (string $url) => ['title' => 'T', 'blocks_json' => json_encode([['type' => 'cta_band', 'data' => ['heading' => 'H', 'button_label' => 'B', 'button_url' => $url]]])];
+
+    foreach (['/investors', 'https://example.com/x', 'http://example.com'] as $ok) {
+        $this->actingAs($editor)->post(route('admin.pages.store'), $cta($ok))->assertSessionHasNoErrors();
+    }
+    foreach (['javascript:alert(1)', '//evil.example', 'data:text/html,x', 'ftp://x.example', '/with space'] as $bad) {
+        $this->actingAs($editor)->post(route('admin.pages.store'), $cta($bad))->assertSessionHasErrors('blocks.0.data.button_url');
+    }
+});

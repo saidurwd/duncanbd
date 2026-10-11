@@ -1,5 +1,5 @@
 @props(['site'])
-<div class="utility-bar">
+<nav class="utility-bar" aria-label="Group and tools">
     <div class="container">
         <span>
             @if ($site['group_name'] && $site['group_url'])
@@ -13,4 +13,4 @@
             @endforeach
         </div>
     </div>
-</div>
+</nav>

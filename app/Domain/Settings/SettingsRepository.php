@@ -14,6 +14,9 @@ class SettingsRepository
 {
     private const CACHE_KEY = 'settings.all';
 
+    /** @var array<string, array<string, mixed>>|null per-request copy: one cache round trip, not one per get() */
+    private ?array $loaded = null;
+
     public function get(string $group, string $key, mixed $default = null): mixed
     {
         return $this->all()[$group][$key] ?? $default;
@@ -27,12 +30,13 @@ class SettingsRepository
         );
 
         Cache::forget(self::CACHE_KEY);
+        $this->loaded = null;
     }
 
     /** @return array<string, array<string, mixed>> */
     public function all(): array
     {
-        return Cache::remember(self::CACHE_KEY, 3600, function () {
+        return $this->loaded ??= Cache::remember(self::CACHE_KEY, 3600, function () {
             $out = [];
 
             foreach (Setting::all() as $setting) {

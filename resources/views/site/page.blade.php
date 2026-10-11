@@ -1,8 +1,8 @@
 @extends('layouts.site')
 
 @section('title', ($page->seo['title'] ?? null) ?: $page->title.' · '.$site['name'])
-@if (! empty($page->seo['description']))
-    @section('description', $page->seo['description'])
+@if (! empty($page->seo['description']) || ! empty($autoDescription))
+    @section('description', $page->seo['description'] ?? $autoDescription)
 @endif
 @if (! empty($ogImage))
     @section('og_image', $ogImage)

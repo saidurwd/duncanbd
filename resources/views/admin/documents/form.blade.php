@@ -79,7 +79,7 @@
                 <tr>
                     <td>v{{ $v->version }} @if ($v->is_current)<span class="badge text-bg-success">current</span>@endif</td>
                     <td>{{ $v->original_name }}</td>
-                    <td>{{ Illuminate\Support\Number::fileSize($v->size) }}</td>
+                    <td>{{ App\Support\Format::fileSize($v->size) }}</td>
                     <td><code class="small">{{ substr($v->checksum, 0, 16) }}…</code></td>
                     <td>{{ $v->created_at->timezone('Asia/Dhaka')->format('d M Y H:i') }}</td>
                     <td><a href="{{ route('admin.documents.download', [$document, $v->version]) }}" class="btn btn-sm btn-outline-secondary">Download</a></td>

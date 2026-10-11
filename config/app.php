@@ -97,6 +97,10 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
+    // Behind Cloudflare/nginx: IPs/CIDRs (comma-separated) allowed to set X-Forwarded-* headers, or "*" when the origin
+    // only accepts proxy traffic. Lets request()->ip(), https detection, secure cookies and rate limits see the real visitor.
+    'trusted_proxies' => env('TRUSTED_PROXIES'),
+
     'key' => env('APP_KEY'),
 
     'previous_keys' => [

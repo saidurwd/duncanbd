@@ -29,7 +29,8 @@ document.querySelectorAll('[data-hero-slider]').forEach((root) => {
     };
 
     button.addEventListener('click', () => (timer ? pause() : play()));
-    root.addEventListener('focusin', () => timer && pause());
+    // Keyboard users tabbing into the slides pause it, but not when they land on the pause button itself.
+    root.addEventListener('focusin', (event) => timer && event.target !== button && pause());
 
     reduced ? pause() : play();
 });

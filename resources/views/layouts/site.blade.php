@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', $site['name'])</title>
-    @hasSection('description')<meta name="description" content="@yield('description')">@endif
+    <meta name="description" content="@hasSection('description')@yield('description')@else{{ $site['default_description'] }}@endif">
     <link rel="canonical" href="{{ url()->current() }}">
     <meta property="og:site_name" content="{{ $site['name'] }}">
     <meta property="og:title" content="@yield('title', $site['name'])">
-    @hasSection('description')<meta property="og:description" content="@yield('description')">@endif
+    <meta property="og:description" content="@hasSection('description')@yield('description')@else{{ $site['default_description'] }}@endif">
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="{{ url()->current() }}">
     @hasSection('og_image')<meta property="og:image" content="@yield('og_image')"><meta name="twitter:card" content="summary_large_image">@endif

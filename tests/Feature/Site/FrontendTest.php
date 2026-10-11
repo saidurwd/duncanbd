@@ -163,3 +163,17 @@ it('falls back gracefully when the site has no settings or menus', function () {
     $this->get('/about')->assertOk();
     $this->get('/')->assertOk();
 });
+
+it('always emits a meta description: explicit, derived from content, or the site default', function () {
+    app(SettingsRepository::class)->set('seo', 'default_description', 'Default site description.');
+
+    $explicit = livePageWith('One', 'one', [block('rich_text', ['heading' => 'x', 'body' => '<p>ignored</p>'])]);
+    $explicit->update(['seo' => ['description' => 'Hand-written description.']]);
+    livePageWith('Two', 'two', [block('rich_text', ['heading' => 'x', 'body' => '<p>Derived from <strong>the first paragraph</strong> of content.</p>'])]);
+    livePageWith('Three', 'three', [block('stats', ['items' => []])]);
+
+    $this->get('/one')->assertSee('<meta name="description" content="Hand-written description.">', false);
+    $this->get('/two')->assertSee('content="Derived from the first paragraph of content."', false);
+    $this->get('/three')->assertSee('<meta name="description" content="Default site description.">', false);
+    $this->get('/contact')->assertSee('<meta name="description" content="Default site description.">', false);
+});

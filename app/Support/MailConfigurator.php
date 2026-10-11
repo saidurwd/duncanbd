@@ -3,7 +3,6 @@
 namespace App\Support;
 
 use App\Domain\Settings\SettingsRepository;
-use Illuminate\Support\Facades\Schema;
 use Throwable;
 
 /** Applies the SMTP details edited in Admin > Settings over the .env mail defaults. */
@@ -14,13 +13,11 @@ class MailConfigurator
     public function apply(): void
     {
         try {
-            if (! Schema::hasTable('settings')) {
-                return;
-            }
-
+            // Served from the settings cache on every request after the first; no schema introspection here
+            // (information_schema queries are slow on MySQL and this runs on every request).
             $mail = $this->settings->all()['mail'] ?? [];
         } catch (Throwable) {
-            return; // DB not available (e.g. during install): keep .env defaults
+            return; // table/DB not available (e.g. during install): keep .env defaults
         }
 
         if (filled($mail['host'] ?? null)) {

@@ -389,3 +389,12 @@ it('applies SMTP and sender settings from the database', function () {
         ->and(config('mail.mailers.smtp.password'))->toBe('smtp-secret')
         ->and(config('mail.from.address'))->toBe('noreply@duncanbd.com');
 });
+
+it('keeps the original time-trap value after a validation error so a quick fix is not mistaken for a bot', function () {
+    $ts = ts(10);
+
+    $this->post('/contact', contactPayload(['_ts' => $ts, 'message' => '']))->assertSessionHasErrors('message');
+
+    // The re-rendered form carries the ORIGINAL value, not a fresh (too-young) one.
+    $this->get('/contact')->assertSee('value="'.$ts.'"', false);
+});

@@ -1,0 +1,12 @@
+{
+  "name": "duncanbd-qa-tools",
+  "private": true,
+  "type": "module",
+  "description": "QA tooling kept apart from the site's own dependencies",
+  "devDependencies": {
+    "autocannon": "^8.0.0",
+    "axe-core": "^4.10.0",
+    "lighthouse": "^12.0.0",
+    "puppeteer-core": "^23.0.0"
+  }
+}
