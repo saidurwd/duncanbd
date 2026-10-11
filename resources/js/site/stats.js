@@ -15,7 +15,9 @@ if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'Intersect
             const start = performance.now();
             const tick = (now) => {
                 const progress = Math.min((now - start) / 1200, 1);
-                el.textContent = prefix + Math.round(target * progress).toLocaleString('en-US') + suffix;
+                const n = Math.round(target * progress);
+                // Only add thousands separators if the figure had them (so a year stays "1859").
+                el.textContent = prefix + (digits.includes(',') ? n.toLocaleString('en-US') : String(n)) + suffix;
                 if (progress < 1) requestAnimationFrame(tick);
             };
             requestAnimationFrame(tick);
