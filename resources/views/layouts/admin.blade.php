@@ -41,6 +41,13 @@
                             <i class="nav-icon bi bi-speedometer2"></i><p>Dashboard</p>
                         </a>
                     </li>
+                    @canany(['media.manage', 'media.view'])
+                        <li class="nav-item">
+                            <a href="{{ route('admin.media.index') }}" class="nav-link @if (request()->routeIs('admin.media.*')) active @endif">
+                                <i class="nav-icon bi bi-images"></i><p>Media library</p>
+                            </a>
+                        </li>
+                    @endcanany
                     @can('settings.manage')
                         <li class="nav-item">
                             <a href="{{ route('admin.settings.edit') }}" class="nav-link @if (request()->routeIs('admin.settings.*')) active @endif">

@@ -9,3 +9,5 @@ parameters:
         - config
         - database
         - routes
+    excludePaths:
+        - config/media-library.php
