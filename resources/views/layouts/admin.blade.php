@@ -41,6 +41,13 @@
                             <i class="nav-icon bi bi-speedometer2"></i><p>Dashboard</p>
                         </a>
                     </li>
+                    @can('pages.edit')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.pages.index') }}" class="nav-link @if (request()->routeIs('admin.pages.*')) active @endif">
+                                <i class="nav-icon bi bi-file-earmark-text"></i><p>Pages</p>
+                            </a>
+                        </li>
+                    @endcan
                     @canany(['media.manage', 'media.view'])
                         <li class="nav-item">
                             <a href="{{ route('admin.media.index') }}" class="nav-link @if (request()->routeIs('admin.media.*')) active @endif">

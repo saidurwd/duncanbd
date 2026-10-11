@@ -21,6 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix(config('admin.path'))
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));
+
+            // Catch-all page resolver must be registered last so it never shadows real routes.
+            Route::middleware('web')->group(base_path('routes/site.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {

@@ -28,3 +28,23 @@ body {
     padding: 4rem 1rem;
     text-align: center;
 }
+
+.skip-link {
+    position: absolute;
+    left: -999px;
+
+    &:focus {
+        left: 1rem;
+        top: 1rem;
+        background: var(--color-surface);
+        padding: 0.5rem 1rem;
+        z-index: 10;
+    }
+}
+
+.preview-banner {
+    background: var(--color-focus);
+    padding: 0.5rem 1rem;
+    text-align: center;
+    font-weight: 600;
+}
