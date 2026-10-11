@@ -33,6 +33,7 @@
     @isset($breadcrumbs)<x-ui.breadcrumb :items="$breadcrumbs" />@endisset
     @yield('content')
 </main>
+@unless (request()->routeIs('newsletter*'))<x-site.newsletter-band />@endunless
 <x-site.footer :site="$site" />
 <x-site.cookie-banner :text="$site['cookie_text']" />
 </body>

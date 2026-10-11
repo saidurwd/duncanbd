@@ -33,7 +33,8 @@ return [
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
-            'serve' => true,
+            // Private files (CVs, documents) are only ever served by authorised controllers, never by a URL.
+            'serve' => false,
             'throw' => false,
             'report' => false,
         ],

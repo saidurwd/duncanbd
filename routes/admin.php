@@ -1,16 +1,21 @@
 <?php
 
+use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\ContentResourceController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DocumentCategoryController;
 use App\Http\Controllers\Admin\DocumentController;
+use App\Http\Controllers\Admin\EnquiryController;
 use App\Http\Controllers\Admin\MediaController;
 use App\Http\Controllers\Admin\MenuController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PrivacyController;
 use App\Http\Controllers\Admin\RedirectController;
 use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Admin\VacancyController;
 use Illuminate\Support\Facades\Route;
 
 // Prefix "config('admin.path')" and name "admin." are applied in bootstrap/app.php.
@@ -95,4 +100,42 @@ Route::middleware(['auth', 'admin.access'])->group(function () {
             Route::put('/{id}', [ContentResourceController::class, 'update'])->whereNumber('id')->name('update');
             Route::delete('/{id}', [ContentResourceController::class, 'destroy'])->whereNumber('id')->name('destroy');
         });
+
+    Route::prefix('enquiries')->name('enquiries.')->middleware('permission:enquiries.manage|enquiries.view')->group(function () {
+        Route::get('/', [EnquiryController::class, 'index'])->name('index');
+        Route::get('/{enquiry}', [EnquiryController::class, 'show'])->whereNumber('enquiry')->name('show');
+        Route::put('/{enquiry}', [EnquiryController::class, 'update'])->whereNumber('enquiry')->name('update');
+        Route::delete('/{enquiry}', [EnquiryController::class, 'destroy'])->whereNumber('enquiry')->name('destroy');
+    });
+
+    Route::prefix('subscribers')->name('subscribers.')->middleware('permission:enquiries.manage|enquiries.view')->group(function () {
+        Route::get('/', [SubscriberController::class, 'index'])->name('index');
+        Route::get('/export', [SubscriberController::class, 'export'])->middleware('permission:enquiries.manage')->name('export');
+    });
+
+    Route::prefix('careers')->middleware('permission:careers.manage')->group(function () {
+        Route::prefix('vacancies')->name('vacancies.')->group(function () {
+            Route::get('/', [VacancyController::class, 'index'])->name('index');
+            Route::get('/create', [VacancyController::class, 'create'])->name('create');
+            Route::post('/', [VacancyController::class, 'store'])->name('store');
+            Route::get('/{vacancy}/edit', [VacancyController::class, 'edit'])->name('edit');
+            Route::put('/{vacancy}', [VacancyController::class, 'update'])->name('update');
+            Route::post('/{vacancy}/publish', [VacancyController::class, 'publish'])->name('publish');
+            Route::post('/{vacancy}/close', [VacancyController::class, 'close'])->name('close');
+            Route::delete('/{vacancy}', [VacancyController::class, 'destroy'])->name('destroy');
+        });
+        Route::prefix('applications')->name('applications.')->group(function () {
+            Route::get('/', [ApplicationController::class, 'index'])->name('index');
+            Route::get('/export', [ApplicationController::class, 'export'])->name('export');
+            Route::get('/{application}', [ApplicationController::class, 'show'])->whereNumber('application')->name('show');
+            Route::put('/{application}', [ApplicationController::class, 'update'])->whereNumber('application')->name('update');
+            Route::get('/{application}/cv', [ApplicationController::class, 'cv'])->whereNumber('application')->name('cv');
+        });
+    });
+
+    Route::prefix('privacy')->name('privacy.')->middleware('permission:settings.manage')->group(function () {
+        Route::get('/', [PrivacyController::class, 'index'])->name('index');
+        Route::get('/export', [PrivacyController::class, 'export'])->name('export');
+        Route::delete('/erase', [PrivacyController::class, 'erase'])->name('erase');
+    });
 });

@@ -8,3 +8,5 @@ Schedule::command('backup:run')->weeklyOn(0, '02:00');
 Schedule::command('backup:monitor')->daily()->at('03:00');
 Schedule::command('model:prune')->daily();
 Schedule::command('pages:publish-scheduled')->everyMinute()->withoutOverlapping();
+Schedule::command('careers:close-expired')->hourly();
+Schedule::command('privacy:prune')->daily()->at('02:30');

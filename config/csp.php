@@ -29,6 +29,11 @@ return [
             [Directive::IMG, ['https://www.google-analytics.com', 'https://www.googletagmanager.com']],
             [Directive::CONNECT, ['https://www.google-analytics.com', 'https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://www.googletagmanager.com']],
         ] : []),
+        // Cloudflare Turnstile widget (only when keys are configured).
+        ...(env('TURNSTILE_SITE_KEY') ? [
+            [Directive::SCRIPT, 'https://challenges.cloudflare.com'],
+            [Directive::FRAME, 'https://challenges.cloudflare.com'],
+        ] : []),
     ],
 
     /*

@@ -85,6 +85,13 @@
                             </li>
                         @endforeach
                     @endcan
+                    @canany(['enquiries.manage', 'enquiries.view'])
+                        <li class="nav-item"><a href="{{ route('admin.enquiries.index') }}" class="nav-link @if (request()->routeIs('admin.enquiries.*')) active @endif"><i class="nav-icon bi bi-envelope"></i><p>Enquiries</p></a></li>
+                        <li class="nav-item"><a href="{{ route('admin.subscribers.index') }}" class="nav-link @if (request()->routeIs('admin.subscribers.*')) active @endif"><i class="nav-icon bi bi-people"></i><p>Subscribers</p></a></li>
+                    @endcanany
+                    @can('careers.manage')
+                        <li class="nav-item"><a href="{{ route('admin.vacancies.index') }}" class="nav-link @if (request()->routeIs('admin.vacancies.*', 'admin.applications.*')) active @endif"><i class="nav-icon bi bi-briefcase"></i><p>Careers</p></a></li>
+                    @endcan
                     @canany(['media.manage', 'media.view'])
                         <li class="nav-item">
                             <a href="{{ route('admin.media.index') }}" class="nav-link @if (request()->routeIs('admin.media.*')) active @endif">
@@ -93,6 +100,7 @@
                         </li>
                     @endcanany
                     @can('settings.manage')
+                        <li class="nav-item"><a href="{{ route('admin.privacy.index') }}" class="nav-link @if (request()->routeIs('admin.privacy.*')) active @endif"><i class="nav-icon bi bi-person-lock"></i><p>Privacy tools</p></a></li>
                         <li class="nav-item">
                             <a href="{{ route('admin.settings.edit') }}" class="nav-link @if (request()->routeIs('admin.settings.*')) active @endif">
                                 <i class="nav-icon bi bi-gear"></i><p>Settings</p>

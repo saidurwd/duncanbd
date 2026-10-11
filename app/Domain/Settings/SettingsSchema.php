@@ -2,6 +2,8 @@
 
 namespace App\Domain\Settings;
 
+use App\Domain\Engagement\Enums\EnquiryCategory;
+
 /**
  * Declares every editable site setting: group, field, label, input type, validation, secrecy.
  * The admin form, validation and persistence are all generated from this one definition.
@@ -13,7 +15,21 @@ class SettingsSchema
      */
     public static function groups(): array
     {
+        $routes = [];
+        foreach (EnquiryCategory::cases() as $category) {
+            $routes[$category->routeKey()] = [
+                'label' => 'Inbox for: '.$category->label(),
+                'type' => 'email',
+                'rules' => ['nullable', 'email', 'max:255'],
+            ];
+        }
+        $routes['hr_email'] = ['label' => 'Inbox for job applications (HR)', 'type' => 'email', 'rules' => ['nullable', 'email', 'max:255'], 'help' => 'Defaults to the Careers enquiry inbox.'];
+
         return [
+            'enquiries' => [
+                'label' => 'Enquiry routing',
+                'fields' => $routes,
+            ],
             'identity' => [
                 'label' => 'Site identity',
                 'fields' => [

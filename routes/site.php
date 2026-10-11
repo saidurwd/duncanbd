@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Site\BusinessController;
+use App\Http\Controllers\Site\CareersController;
 use App\Http\Controllers\Site\DocumentController;
 use App\Http\Controllers\Site\NewsController;
 use App\Http\Controllers\Site\PageController;
@@ -22,6 +23,9 @@ Route::middleware('site')->group(function () {
     // Search results vary per query and are cheap to abuse: never cached, rate limited.
     Route::get('/search', [SearchController::class, 'search'])->middleware('throttle:30,1')->withoutMiddleware(CacheResponse::class)->name('search');
     Route::get('/sitemap', [SearchController::class, 'sitemap'])->name('sitemap.html');
+
+    Route::get('/careers/vacancies', [CareersController::class, 'index'])->name('careers.index');
+    Route::get('/careers/vacancies/{slug}', [CareersController::class, 'show'])->where('slug', '[a-z0-9\-]+')->name('careers.show');
 
     Route::get('/news', [NewsController::class, 'index'])->name('news.index');
     Route::get('/news/{year}/{slug}', [NewsController::class, 'show'])->whereNumber('year')->where('slug', '[a-z0-9\-]+')->name('news.show');
