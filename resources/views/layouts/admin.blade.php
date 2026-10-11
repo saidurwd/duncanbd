@@ -41,6 +41,13 @@
                             <i class="nav-icon bi bi-speedometer2"></i><p>Dashboard</p>
                         </a>
                     </li>
+                    @can('settings.manage')
+                        <li class="nav-item">
+                            <a href="{{ route('admin.settings.edit') }}" class="nav-link @if (request()->routeIs('admin.settings.*')) active @endif">
+                                <i class="nav-icon bi bi-gear"></i><p>Settings</p>
+                            </a>
+                        </li>
+                    @endcan
                     <li class="nav-item">
                         <a href="{{ route('admin.security') }}" class="nav-link @if (request()->routeIs('admin.security')) active @endif">
                             <i class="nav-icon bi bi-shield-lock"></i><p>My security</p>
