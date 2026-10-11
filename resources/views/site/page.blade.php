@@ -12,12 +12,16 @@
     @if ($preview)<meta name="robots" content="noindex, nofollow">@endif
 @endpush
 
+@unless (collect($blocks)->contains(fn ($b) => $b['type'] === 'hero'))
+    @section('crumbs_in_hero', '1')
+@endunless
+
 @section('content')
     @if ($preview)
         <div class="preview-banner" role="status">Preview — this page is not published.</div>
     @endif
     @unless (collect($blocks)->contains(fn ($b) => $b['type'] === 'hero'))
-        <x-hero.page :title="$page->title" />
+        <x-hero.page :title="$page->title" :crumbs="$breadcrumbs" />
     @endunless
     @foreach ($blocks as $block)
         @includeIf('site.blocks.'.$block['type'], ['data' => $block['data'], 'media' => $media])

@@ -10,7 +10,7 @@ const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8'
 const urls = ['/', '/who-we-are', '/what-we-do', '/investors', '/sustainability', '/news', '/news/' + new Date().getFullYear() + '/demo-story-1',
     '/documents', '/documents/annual-reports', '/what-we-do/tea', '/what-we-do/tea/estates/kodala', '/careers/vacancies', '/careers/vacancies/assistant-estate-manager',
     '/careers/vacancies/assistant-estate-manager/apply', '/contact', '/newsletter', '/search?q=tea', '/sitemap', '/privacy-notice', '/does-not-exist'];
-const viewports = { desktop: { width: 1280, height: 900 }, mobile: { width: 390, height: 844, isMobile: true, deviceScaleFactor: 2 } };
+const viewports = { desktop: { width: 1280, height: 900 }, tablet: { width: 1000, height: 800 }, mobile: { width: 390, height: 844, isMobile: true, deviceScaleFactor: 2 } };
 const tags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 
 const browser = await launch();
@@ -22,7 +22,7 @@ for (const [vpName, vp] of Object.entries(viewports)) {
         for (const state of ['default', ...(path === '/' ? ['menu-open', 'banner-dismissed'] : [])]) {
             await page.deleteCookie(...(await page.cookies()));   // every state starts like a first-time visitor (banner visible)
             await page.goto(BASE + path, { waitUntil: 'networkidle0' });
-            if (state === 'menu-open') { await page.click('[data-explore-toggle]'); await sleep(200); }
+            if (state === 'menu-open') { await page.setViewport({ width: 1000, height: 800 }); await page.click('[data-explore-toggle]'); await sleep(200); }
             if (state === 'banner-dismissed') { await page.click('[data-consent-reject]'); await sleep(200); }
             await page.evaluate(axeSource);
             const r = await page.evaluate((t) => window.axe.run(document, { runOnly: { type: 'tag', values: t } }), tags);

@@ -1,7 +1,7 @@
 @props(['items'])
 <div id="explore-menu" class="explore-menu" data-explore-menu role="dialog" aria-modal="true" aria-label="Site menu" hidden>
     <div class="container">
-        <div class="explore-menu__bar"><button type="button" class="explore-menu__close" data-explore-close>Close menu</button></div>
+        <div class="explore-menu__bar"><span class="explore-menu__title">{{ config('app.name') }}</span><button type="button" class="explore-menu__close" data-explore-close>Close menu</button></div>
         <nav aria-label="Main">
             <ul class="explore-menu__top explore-menu__grid">
                 @foreach ($items as $item)

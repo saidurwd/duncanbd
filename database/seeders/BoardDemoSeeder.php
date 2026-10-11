@@ -397,7 +397,7 @@ class BoardDemoSeeder extends Seeder
         ]);
 
         $make('Investors', 'investors', [
-            $text('Investors & shareholders', '<p>Annual reports, AGM notices and statutory disclosures.</p>'),
+            $text('', '<p>Annual reports, AGM notices and statutory disclosures.</p>'),
             $b('featured_document', ['heading' => 'Latest annual report', 'document_id' => Document::where('slug', 'annual-report-2025')->value('id')]),
             $b('document_list', ['heading' => 'Annual reports', 'category' => 'annual-reports', 'limit' => 10]),
             $b('document_list', ['heading' => 'AGM & EGM notices', 'category' => 'agm-egm-notices', 'limit' => 10]),
@@ -405,7 +405,7 @@ class BoardDemoSeeder extends Seeder
         ]);
 
         $make('Corporate responsibility', 'corporate-responsibility', [
-            $text('Responsibility', '<p>Beyond our estates and factories we support health care and education in the communities around us, through the CDF hospital and school and other social commitments.</p>'),
+            $text('', '<p>Beyond our estates and factories we support health care and education in the communities around us, through the CDF hospital and school and other social commitments.</p>'),
             $b('cards_grid', ['heading' => 'Our commitments', 'items' => [
                 ['title' => 'Primary health care', 'text' => 'The CDF hospital and community clinic.', 'media_id' => $this->m['1486449433_cdf_hospital.jpg'] ?? null],
                 ['title' => 'Education', 'text' => 'The CDF school.', 'media_id' => $this->m['1486449381_cdfs_students.jpg'] ?? null],

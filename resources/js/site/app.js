@@ -5,3 +5,4 @@ import './video';
 import './stats';
 import './gallery';
 import './forms';
+import './chrome';

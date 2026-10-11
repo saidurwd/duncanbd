@@ -208,5 +208,5 @@ it('renders document blocks on a page', function () {
         ],
     ]);
 
-    $this->get('/investors')->assertOk()->assertSee('Latest reports')->assertSee('Annual Report 2025')->assertSee('Open report');
+    $this->get('/investors')->assertOk()->assertSee('Latest reports')->assertSee('Annual Report 2025')->assertSee('Download the report');
 });

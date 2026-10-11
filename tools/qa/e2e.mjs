@@ -16,7 +16,8 @@ sql("delete from pages where title='E2E Landing Page'");
 
 const browser = await launch();
 const errors = [];
-const newPage = async (vp = { width: 1280, height: 900 }) => { const p = await browser.newPage(); await p.setViewport(vp); watch(p, errors); return p; };
+// 1000 px: below the 1200 px breakpoint where the full desktop nav replaces the Menu button
+const newPage = async (vp = { width: 1000, height: 900 }) => { const p = await browser.newPage(); await p.setViewport(vp); watch(p, errors); return p; };
 
 // ---------------------------------------------------------------- public: chrome
 {

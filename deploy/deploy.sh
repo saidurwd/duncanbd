@@ -25,6 +25,8 @@ switch_to() {   # atomic: create the new link beside the old one, then rename ov
 }
 
 post_switch() {
+  # Cached pages reference hashed asset names from the previous build: always clear them on a switch.
+  (cd "$current" && "$PHP" artisan responsecache:clear >/dev/null 2>&1 || true)
   (cd "$current" && "$PHP" artisan queue:restart >/dev/null 2>&1 || true)
   eval "$RELOAD_CMD" || true   # clears OPcache so the new code is served
 }

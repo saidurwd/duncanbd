@@ -13,5 +13,12 @@
         <h1>{{ $data['heading'] }}</h1>
         @if ($data['intro'])<p>{{ $data['intro'] }}</p>@endif
     </div>
-    @if ($slides->count() > 1)<button type="button" class="block-hero__pause" data-slider-pause aria-pressed="false">Pause slideshow</button>@endif
+    @if ($slides->count() > 1)
+        <button type="button" class="block-hero__arrow block-hero__arrow--prev" data-slider-prev aria-label="Previous slide"><span aria-hidden="true">‹</span></button>
+        <button type="button" class="block-hero__arrow block-hero__arrow--next" data-slider-next aria-label="Next slide"><span aria-hidden="true">›</span></button>
+        <div class="block-hero__nav" role="group" aria-label="Choose a slide">
+            @foreach ($slides as $i => $_)<button type="button" class="block-hero__dot" data-slider-dot="{{ $i }}" aria-label="Slide {{ $i + 1 }} of {{ $slides->count() }}" @if ($i === 0) aria-current="true" @endif></button>@endforeach
+        </div>
+        <button type="button" class="block-hero__pause" data-slider-pause aria-pressed="false">Pause slideshow</button>
+    @endif
 </section>
