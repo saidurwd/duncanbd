@@ -102,3 +102,12 @@ it('updates metadata, filters by folder and soft-deletes', function () {
     $this->actingAs($user)->delete(route('admin.media.destroy', $item))->assertRedirect();
     expect(MediaItem::count())->toBe(0)->and(MediaItem::withTrashed()->count())->toBe(1);
 });
+
+it('renders pagination with Bootstrap markup the admin styles understand', function () {
+    foreach (range(1, 30) as $i) {
+        MediaItem::create(['title' => "Item $i", 'alt_text' => 'x']);
+    }
+
+    $this->actingAs(mediaUser(Role::SiteAdmin))->get(route('admin.media.index'))
+        ->assertOk()->assertSee('class="pagination"', false)->assertSee('page-item', false)->assertSee('page-link', false);
+});

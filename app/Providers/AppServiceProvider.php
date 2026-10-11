@@ -22,6 +22,7 @@ use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -45,6 +46,9 @@ class AppServiceProvider extends ServiceProvider
             // Only requests that actually send mail pay for loading the SMTP settings.
             $this->app->resolving('mail.manager', fn () => $this->app->make(MailConfigurator::class)->apply());
         }
+
+        // The admin (AdminLTE) and public styles are Bootstrap-based; the default view is Tailwind and renders unstyled.
+        Paginator::useBootstrapFive();
 
         Model::preventLazyLoading(! $this->app->isProduction());
         Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
