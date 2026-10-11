@@ -1,0 +1,30 @@
+// Design tokens (architecture doc §3.1). Values marked proposed await the Camellia brand pack.
+:root {
+    --color-primary: #2c3f5c;
+    --color-primary-dark: #1e2c41;
+    --color-accent: #5e8c4a;
+    --color-accent-warm: #c8a15a;
+    --color-surface: #fff;
+    --color-surface-alt: #f4f5f2;
+    --color-text: #1f2933;
+    --color-text-muted: #5b6670;
+    --color-focus: #f2b705;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    color: var(--color-text);
+    background: var(--color-surface);
+    line-height: 1.6;
+}
+
+:focus-visible {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.coming-soon {
+    padding: 4rem 1rem;
+    text-align: center;
+}
