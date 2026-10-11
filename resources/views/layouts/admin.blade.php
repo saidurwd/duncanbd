@@ -7,23 +7,35 @@
     <title>@yield('title', 'Dashboard') · {{ config('app.name') }} Admin</title>
     @vite(['resources/scss/admin/app.scss', 'resources/js/admin/app.js'])
 </head>
+@php($me = auth()->user())
 <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
 <div class="app-wrapper">
     <a href="#main" class="visually-hidden-focusable">Skip to content</a>
+
     <nav class="app-header navbar navbar-expand bg-body">
         <div class="container-fluid">
             <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button" aria-label="Toggle navigation"><i class="bi bi-list"></i></a>
-                </li>
+                <li class="nav-item"><a class="nav-link" data-lte-toggle="sidebar" href="#" role="button" aria-label="Toggle navigation"><i class="bi bi-list"></i></a></li>
+                <li class="nav-item d-none d-md-block"><a href="{{ route('admin.dashboard') }}" class="nav-link">Home</a></li>
+                <li class="nav-item d-none d-md-block"><a href="{{ url('/') }}" class="nav-link" target="_blank" rel="noopener">View website <i class="bi bi-box-arrow-up-right small"></i><span class="visually-hidden"> (opens in a new tab)</span></a></li>
             </ul>
             <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item me-3">{{ auth()->user()->name }}</li>
-                <li class="nav-item">
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-sm btn-outline-secondary">Sign out</button>
-                    </form>
+                <li class="nav-item"><a class="nav-link" href="#" data-lte-toggle="fullscreen" role="button" aria-label="Toggle full screen"><i data-lte-icon="maximize" class="bi bi-arrows-fullscreen"></i><i data-lte-icon="minimize" class="bi bi-fullscreen-exit" hidden></i></a></li>
+                <li class="nav-item dropdown user-menu">
+                    <a href="#" class="nav-link dropdown-toggle d-flex align-items-center gap-2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="avatar-initials" aria-hidden="true">{{ Str::of($me->name)->explode(' ')->map(fn ($p) => Str::substr($p, 0, 1))->take(2)->implode('') }}</span>
+                        <span class="d-none d-md-inline">{{ $me->name }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                        <li class="user-header text-bg-primary">
+                            <span class="avatar-initials avatar-lg" aria-hidden="true">{{ Str::of($me->name)->explode(' ')->map(fn ($p) => Str::substr($p, 0, 1))->take(2)->implode('') }}</span>
+                            <p>{{ $me->name }}<small>{{ $me->roles->first() ? App\Domain\Identity\Enums\Role::from($me->roles->first()->name)->label() : '' }}</small><small>{{ $me->email }}</small></p>
+                        </li>
+                        <li class="user-footer">
+                            <a href="{{ route('admin.security') }}" class="btn btn-outline-secondary">My security</a>
+                            <form method="POST" action="{{ route('logout') }}" class="float-end">@csrf<button type="submit" class="btn btn-outline-secondary">Sign out</button></form>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>
@@ -31,103 +43,35 @@
 
     <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
         <div class="sidebar-brand">
-            <a href="{{ route('admin.dashboard') }}" class="brand-link"><span class="brand-text fw-bold">{{ config('app.name') }}</span></a>
+            <a href="{{ route('admin.dashboard') }}" class="brand-link">
+                <span class="brand-mark" aria-hidden="true">DB</span>
+                <span class="brand-text fw-light">Duncan Brothers <small class="d-block">Website admin</small></span>
+            </a>
         </div>
         <div class="sidebar-wrapper">
-            <nav class="mt-2" aria-label="Main">
-                <ul class="nav sidebar-menu flex-column" role="menu">
-                    <li class="nav-item">
-                        <a href="{{ route('admin.dashboard') }}" class="nav-link @if (request()->routeIs('admin.dashboard')) active @endif">
-                            <i class="nav-icon bi bi-speedometer2"></i><p>Dashboard</p>
-                        </a>
-                    </li>
-                    @can('pages.edit')
-                        <li class="nav-item">
-                            <a href="{{ route('admin.pages.index') }}" class="nav-link @if (request()->routeIs('admin.pages.*')) active @endif">
-                                <i class="nav-icon bi bi-file-earmark-text"></i><p>Pages</p>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('menus.manage')
-                        <li class="nav-item">
-                            <a href="{{ route('admin.menus.index') }}" class="nav-link @if (request()->routeIs('admin.menus.*')) active @endif">
-                                <i class="nav-icon bi bi-list-nested"></i><p>Menus</p>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('seo.manage')
-                        <li class="nav-item">
-                            <a href="{{ route('admin.redirects.index') }}" class="nav-link @if (request()->routeIs('admin.redirects.*')) active @endif">
-                                <i class="nav-icon bi bi-signpost-split"></i><p>Redirects &amp; 404s</p>
-                            </a>
-                        </li>
-                    @endcan
-                    @canany(['documents.investor.manage', 'documents.general.manage'])
-                        <li class="nav-item">
-                            <a href="{{ route('admin.documents.index') }}" class="nav-link @if (request()->routeIs('admin.documents.*')) active @endif">
-                                <i class="nav-icon bi bi-file-earmark-pdf"></i><p>Documents</p>
-                            </a>
-                        </li>
-                    @endcanany
-                    @can('news.edit')
-                        <li class="nav-item">
-                            <a href="{{ route('admin.posts.index') }}" class="nav-link @if (request()->routeIs('admin.posts.*')) active @endif">
-                                <i class="nav-icon bi bi-newspaper"></i><p>News &amp; press</p>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('pages.publish')
-                        @foreach (App\Domain\Content\ContentResource::all() as $res)
-                            <li class="nav-item">
-                                <a href="{{ route('admin.content.index', $res->key) }}" class="nav-link @if (request()->is(config('admin.path').'/content/'.$res->key.'*')) active @endif">
-                                    <i class="nav-icon bi bi-collection"></i><p>{{ $res->label }}</p>
-                                </a>
-                            </li>
-                        @endforeach
-                    @endcan
-                    @canany(['enquiries.manage', 'enquiries.view'])
-                        <li class="nav-item"><a href="{{ route('admin.enquiries.index') }}" class="nav-link @if (request()->routeIs('admin.enquiries.*')) active @endif"><i class="nav-icon bi bi-envelope"></i><p>Enquiries</p></a></li>
-                        <li class="nav-item"><a href="{{ route('admin.subscribers.index') }}" class="nav-link @if (request()->routeIs('admin.subscribers.*')) active @endif"><i class="nav-icon bi bi-people"></i><p>Subscribers</p></a></li>
-                    @endcanany
-                    @can('careers.manage')
-                        <li class="nav-item"><a href="{{ route('admin.vacancies.index') }}" class="nav-link @if (request()->routeIs('admin.vacancies.*', 'admin.applications.*')) active @endif"><i class="nav-icon bi bi-briefcase"></i><p>Careers</p></a></li>
-                    @endcan
-                    @canany(['media.manage', 'media.view'])
-                        <li class="nav-item">
-                            <a href="{{ route('admin.media.index') }}" class="nav-link @if (request()->routeIs('admin.media.*')) active @endif">
-                                <i class="nav-icon bi bi-images"></i><p>Media library</p>
-                            </a>
-                        </li>
-                    @endcanany
-                    @can('users.manage')
-                        <li class="nav-item"><a href="{{ route('admin.users.index') }}" class="nav-link @if (request()->routeIs('admin.users.*')) active @endif"><i class="nav-icon bi bi-person-gear"></i><p>Users &amp; roles</p></a></li>
-                    @endcan
-                    @can('settings.manage')
-                        <li class="nav-item"><a href="{{ route('admin.privacy.index') }}" class="nav-link @if (request()->routeIs('admin.privacy.*')) active @endif"><i class="nav-icon bi bi-person-lock"></i><p>Privacy tools</p></a></li>
-                        <li class="nav-item">
-                            <a href="{{ route('admin.settings.edit') }}" class="nav-link @if (request()->routeIs('admin.settings.*')) active @endif">
-                                <i class="nav-icon bi bi-gear"></i><p>Settings</p>
-                            </a>
-                        </li>
-                    @endcan
-                    <li class="nav-item">
-                        <a href="{{ route('admin.security') }}" class="nav-link @if (request()->routeIs('admin.security')) active @endif">
-                            <i class="nav-icon bi bi-shield-lock"></i><p>My security</p>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+            <nav class="mt-2" aria-label="Main">@include('admin._sidebar')</nav>
         </div>
     </aside>
 
     <main id="main" class="app-main">
         <div class="app-content-header">
-            <div class="container-fluid"><h1 class="h3 mb-0">@yield('title', 'Dashboard')</h1></div>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-6"><h1 class="mb-0 fs-3">@yield('title', 'Dashboard')</h1></div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-end mb-0">
+                            <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                            @hasSection('breadcrumb')@yield('breadcrumb')@endif
+                            <li class="breadcrumb-item active" aria-current="page">@yield('title', 'Dashboard')</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="app-content">
             <div class="container-fluid">
-                @if (session('status'))
-                    <div class="alert alert-info" role="status">{{ session('status') }}</div>
+                @if (session('status') && ! in_array(session('status'), ['two-factor-authentication-enabled', 'two-factor-authentication-confirmed', 'two-factor-authentication-disabled', 'recovery-codes-generated', 'password-updated']))
+                    <div class="alert alert-success alert-dismissible fade show" role="status">{{ session('status') }}<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>
                 @endif
                 @if ($errors->any())
                     <div class="alert alert-danger" role="alert">
@@ -138,6 +82,11 @@
             </div>
         </div>
     </main>
+
+    <footer class="app-footer">
+        <div class="float-end d-none d-sm-inline">Website administration · {{ config('app.version') }}</div>
+        <strong>© {{ now()->year }} <a href="{{ url('/') }}" class="text-decoration-none" target="_blank" rel="noopener">Duncan Brothers (Bangladesh) Limited</a>.</strong> All rights reserved.
+    </footer>
 </div>
 </body>
 </html>

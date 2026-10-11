@@ -15,6 +15,9 @@ return [
 
     'name' => env('APP_NAME', 'Duncan Brothers'),
 
+    // Shown in the admin footer; set APP_VERSION from the release tag at deploy time.
+    'version' => env('APP_VERSION', 'dev'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

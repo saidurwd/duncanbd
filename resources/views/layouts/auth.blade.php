@@ -9,10 +9,8 @@
 </head>
 <body class="login-page bg-body-secondary">
 <main class="login-box">
+    <div class="login-logo text-center mb-3"><span class="brand-mark" aria-hidden="true">DB</span><span class="d-block h3 mt-2 mb-0">{{ config('app.name') }}</span><small class="text-muted">Website administration</small></div>
     <div class="card card-outline card-primary">
-        <div class="card-header text-center">
-            <span class="h1 fw-bold">{{ config('app.name') }}</span>
-        </div>
         <div class="card-body login-card-body">
             @if (session('status'))
                 <div class="alert alert-success" role="status">{{ session('status') }}</div>
