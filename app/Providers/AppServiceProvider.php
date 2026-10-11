@@ -47,6 +47,9 @@ class AppServiceProvider extends ServiceProvider
             $this->app->resolving('mail.manager', fn () => $this->app->make(MailConfigurator::class)->apply());
         }
 
+        // After sign-in Fortify redirects here; keep it in step with the configured admin path.
+        config(['fortify.home' => '/'.config('admin.path')]);
+
         // The admin (AdminLTE) and public styles are Bootstrap-based; the default view is Tailwind and renders unstyled.
         Paginator::useBootstrapFive();
 

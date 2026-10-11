@@ -2,3 +2,16 @@
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
 .pre-wrap { white-space: pre-wrap; }
+
+// Rich-text editor (injected styles are blocked by the CSP, so everything lives here)
+.rte { background: var(--bs-body-bg); }
+.rte-toolbar .btn.active { background: var(--bs-secondary); color: #fff; }
+.rte-sep { width: 1px; background: var(--bs-border-color); margin: 0 0.25rem; }
+.rte-surface { min-height: 12rem; max-height: 32rem; overflow-y: auto; }
+.rte-content { outline: none; min-height: 10rem; }
+.rte-content:focus-visible { outline: 3px solid #f2b705; outline-offset: 2px; }
+.rte-content h2 { font-size: 1.5rem; margin-top: 1rem; }
+.rte-content h3 { font-size: 1.25rem; margin-top: 1rem; }
+.rte-content h4 { font-size: 1.1rem; margin-top: 1rem; }
+.rte-content blockquote { border-left: 4px solid var(--bs-border-color); padding-left: 1rem; color: var(--bs-secondary-color); }
+.rte-content p { margin-bottom: 0.75rem; }

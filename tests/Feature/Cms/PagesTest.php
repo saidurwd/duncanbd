@@ -4,6 +4,7 @@ use App\Domain\Cms\Enums\PageStatus;
 use App\Domain\Cms\Models\Page;
 use App\Domain\Identity\Enums\Role;
 use App\Domain\Identity\Models\User;
+use App\Domain\News\Models\Post;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Support\Facades\URL;
 
@@ -181,4 +182,23 @@ it('accepts site-relative and https links in blocks but rejects script-capable o
     foreach (['javascript:alert(1)', '//evil.example', 'data:text/html,x', 'ftp://x.example', '/with space'] as $bad) {
         $this->actingAs($editor)->post(route('admin.pages.store'), $cta($bad))->assertSessionHasErrors('blocks.0.data.button_url');
     }
+});
+
+it('serves the rich-text editor only where rich text is edited', function () {
+    $editor = cmsUser(Role::Editor);
+
+    $this->actingAs($editor)->get(route('admin.posts.create'))->assertOk()->assertSee('data-rich-text', false);
+    $this->actingAs($editor)->get(route('admin.vacancies.create'))->assertForbidden();   // HR only
+    $this->actingAs(cmsUser(Role::Hr))->get(route('admin.vacancies.create'))->assertOk()->assertSee('data-rich-text', false);
+    $this->actingAs($editor)->get(route('admin.content.create', 'people'))->assertOk()->assertSee('data-rich-text', false);
+});
+
+it('still sanitises rich text posted directly, whatever the editor sends', function () {
+    $this->actingAs(cmsUser(Role::Editor))->post(route('admin.posts.store'), [
+        'type' => 'news', 'title' => 'Hand-crafted', 'body' => '<p>ok</p><script>alert(1)</script><a href="javascript:alert(2)" onclick="x()">bad</a><img src=x onerror=alert(3)>',
+    ])->assertSessionHasNoErrors();
+
+    $body = Post::firstOrFail()->body;
+
+    expect($body)->toContain('<p>ok</p>')->not->toContain('script')->not->toContain('javascript:')->not->toContain('onclick')->not->toContain('onerror')->not->toContain('<img');
 });

@@ -12,6 +12,8 @@ const el = (tag, attrs = {}, children = []) => {
     return node;
 };
 
+import { createRichText } from './rich-text';
+
 let uid = 0;
 
 function fieldInput(field, value, onChange) {
@@ -19,8 +21,18 @@ function fieldInput(field, value, onChange) {
     const common = { id, class: 'form-control form-control-sm' };
     let input;
 
-    if (field.type === 'textarea' || field.type === 'richtext') {
-        input = el('textarea', { ...common, rows: field.type === 'richtext' ? 8 : 3 });
+    if (field.type === 'richtext') {
+        const labelId = `${id}-label`;
+        const { element } = createRichText({ value, labelledBy: labelId, onChange: (html) => onChange(html === '' ? null : html) });
+
+        return el('div', { class: 'mb-2' }, [
+            el('div', { id: labelId, class: 'form-label small mb-1' }, field.label + (field.required ? ' *' : '')),
+            element,
+        ]);
+    }
+
+    if (field.type === 'textarea') {
+        input = el('textarea', { ...common, rows: 3 });
         input.value = value ?? '';
     } else if (field.type === 'select') {
         input = el('select', { ...common, class: 'form-select form-select-sm' }, [
@@ -36,7 +48,7 @@ function fieldInput(field, value, onChange) {
     }
     input.addEventListener('input', () => onChange(input.value === '' ? null : input.value));
 
-    const label = field.label + (field.type === 'media' ? ' (media ID)' : '') + (field.type === 'richtext' ? ' (HTML: h2–h4, p, lists, links, tables)' : '');
+    const label = field.label + (field.type === 'media' ? ' (media ID)' : '');
 
     return el('div', { class: 'mb-2' }, [
         el('label', { for: id, class: 'form-label small mb-1' }, label + (field.required ? ' *' : '')),

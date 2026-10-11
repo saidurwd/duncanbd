@@ -169,9 +169,10 @@ const newPage = async (vp = { width: 1280, height: 900 }) => { const p = await b
     await page.type('#title', 'E2E Landing Page');
     await page.select('#block-type', 'rich_text');
     await page.click('[data-add-block]');
-    await page.waitForSelector('[data-block-list] textarea');
+    await page.waitForSelector('[data-block-list] .rte-content');
     await page.type('[data-block-list] input[type=text]', 'E2E heading');
-    await page.type('[data-block-list] textarea', '<p>Hello <strong>editor</strong></p><script>alert(1)</script>');
+    await page.click('[data-block-list] .rte-content');
+    await page.keyboard.type('Hello editor');   // WYSIWYG: markup cannot be typed, the server still strips scripts if posted by hand
     await page.select('#block-type', 'cta_band');
     await page.click('[data-add-block]');
     check('block editor renders two blocks', (await page.$$('[data-block-list] .card')).length === 2);

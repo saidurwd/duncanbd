@@ -38,7 +38,7 @@
             </select>
         </div>
         <div class="col-12"><label for="excerpt" class="form-label">Excerpt</label><textarea id="excerpt" name="excerpt" rows="2" class="form-control" maxlength="400">{{ old('excerpt', $post->excerpt) }}</textarea></div>
-        <div class="col-12"><label for="body" class="form-label">Body (HTML: h2–h4, p, lists, links, tables)</label><textarea id="body" name="body" rows="12" class="form-control">{{ old('body', $post->body) }}</textarea></div>
+        <div class="col-12"><label for="body" class="form-label">Body</label><textarea id="body" name="body" rows="12" class="form-control" data-rich-text>{{ old('body', $post->body) }}</textarea></div>
         <div class="col-md-4"><label for="featured_media_id" class="form-label">Featured image (media ID)</label><input id="featured_media_id" type="number" name="featured_media_id" value="{{ old('featured_media_id', $post->featured_media_id) }}" class="form-control"></div>
         <div class="col-md-4"><label for="tags" class="form-label">Tags (comma separated)</label><input id="tags" name="tags" value="{{ old('tags', implode(', ', $post->tags ?? [])) }}" class="form-control"></div>
         <div class="col-md-4"><label for="slug" class="form-label">Slug</label><input id="slug" name="slug" value="{{ old('slug', $post->slug) }}" class="form-control" placeholder="auto from title"></div>

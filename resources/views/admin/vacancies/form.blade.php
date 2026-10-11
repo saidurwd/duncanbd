@@ -20,8 +20,8 @@
         <div class="col-md-3"><label for="employment_type" class="form-label">Type</label>
             <select id="employment_type" name="employment_type" class="form-select">@foreach (App\Domain\Careers\Enums\EmploymentType::cases() as $t)<option value="{{ $t->value }}" @selected(old('employment_type', $vacancy->employment_type->value) === $t->value)>{{ $t->label() }}</option>@endforeach</select></div>
         <div class="col-md-3"><label for="closing_date" class="form-label">Closing date</label><input id="closing_date" type="date" name="closing_date" value="{{ old('closing_date', $vacancy->closing_date?->format('Y-m-d')) }}" class="form-control"></div>
-        <div class="col-12"><label for="description" class="form-label">Description (HTML: h2–h4, p, lists, links)</label><textarea id="description" name="description" rows="8" class="form-control">{{ old('description', $vacancy->description) }}</textarea></div>
-        <div class="col-12"><label for="requirements" class="form-label">Requirements</label><textarea id="requirements" name="requirements" rows="6" class="form-control">{{ old('requirements', $vacancy->requirements) }}</textarea></div>
+        <div class="col-12"><label for="description" class="form-label">Description</label><textarea id="description" name="description" rows="8" class="form-control" data-rich-text>{{ old('description', $vacancy->description) }}</textarea></div>
+        <div class="col-12"><label for="requirements" class="form-label">Requirements</label><textarea id="requirements" name="requirements" rows="6" class="form-control" data-rich-text>{{ old('requirements', $vacancy->requirements) }}</textarea></div>
         <div class="col-12"><button class="btn btn-primary">Save</button> <a href="{{ route('admin.vacancies.index') }}" class="btn btn-link">Back</a></div>
     </form>
     @if ($vacancy->exists)<form method="POST" action="{{ route('admin.vacancies.destroy', $vacancy) }}" class="mt-4">@csrf @method('DELETE')<button class="btn btn-sm btn-outline-danger">Move to trash</button></form>@endif
