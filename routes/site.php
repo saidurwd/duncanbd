@@ -4,6 +4,7 @@ use App\Http\Controllers\Site\BusinessController;
 use App\Http\Controllers\Site\DocumentController;
 use App\Http\Controllers\Site\NewsController;
 use App\Http\Controllers\Site\PageController;
+use App\Http\Controllers\Site\SearchController;
 use App\Http\Controllers\Site\SeoController;
 use Illuminate\Support\Facades\Route;
 use Spatie\ResponseCache\Middlewares\CacheResponse;
@@ -18,6 +19,10 @@ Route::middleware('site')->group(function () {
     Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
     Route::get('/documents/{category}', [DocumentController::class, 'index'])->where('category', '[a-z0-9\-]+')->name('documents.category');
     Route::get('/documents/{category}/{slug}', [DocumentController::class, 'show'])->where(['category' => '[a-z0-9\-]+', 'slug' => '[a-z0-9\-]+'])->name('documents.show');
+    // Search results vary per query and are cheap to abuse: never cached, rate limited.
+    Route::get('/search', [SearchController::class, 'search'])->middleware('throttle:30,1')->withoutMiddleware(CacheResponse::class)->name('search');
+    Route::get('/sitemap', [SearchController::class, 'sitemap'])->name('sitemap.html');
+
     Route::get('/news', [NewsController::class, 'index'])->name('news.index');
     Route::get('/news/{year}/{slug}', [NewsController::class, 'show'])->whereNumber('year')->where('slug', '[a-z0-9\-]+')->name('news.show');
 

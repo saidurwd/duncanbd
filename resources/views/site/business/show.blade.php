@@ -5,6 +5,7 @@
 
 @section('content')
     <article class="block">
+<div class="container">
         <h1>{{ $business->name }}</h1>
         @if ($business->summary)<p class="lead">{{ $business->summary }}</p>@endif
         @if ($business->metrics)
@@ -23,5 +24,6 @@
             </ul>
         @endif
         @if ($business->website_url)<p><a href="{{ $business->website_url }}" rel="noopener">Visit website</a></p>@endif
-    </article>
+    </div>
+</article>
 @endsection

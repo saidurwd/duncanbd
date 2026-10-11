@@ -10,6 +10,7 @@
         ]);
 @endphp
 <section class="block block-companies">
+    <div class="container">
     @foreach ($companies as $company)
         <details>
             <summary>{{ $company['name'] }}</summary>
@@ -20,4 +21,5 @@
             @if ($company['url'])<a href="{{ $company['url'] }}">Find out more</a>@endif
         </details>
     @endforeach
+    </div>
 </section>

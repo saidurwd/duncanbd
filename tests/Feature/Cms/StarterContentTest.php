@@ -16,7 +16,7 @@ it('seeds the sitemap structure as unpublished drafts and is idempotent', functi
     $this->seed(StarterContentSeeder::class);
     $this->seed(StarterContentSeeder::class);
 
-    expect(Page::count())->toBe(8)
+    expect(Page::count())->toBe(12)
         ->and(Page::where('status', '!=', 'draft')->count())->toBe(0)
         ->and(Page::where('path', 'who-we-are/history')->value('parent_id'))->toBe(Page::where('path', 'who-we-are')->value('id'))
         ->and(app(MenuRepository::class)->tree(MenuLocation::Explore))->toHaveCount(5);

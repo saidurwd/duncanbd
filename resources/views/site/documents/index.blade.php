@@ -4,6 +4,7 @@
 
 @section('content')
     <section class="block">
+<div class="container">
         <h1>{{ $category?->name ?? 'Reports & documents' }}</h1>
         <nav aria-label="Document categories">
             <a href="{{ route('documents.index') }}">All</a>
@@ -23,5 +24,6 @@
         @endif
         @include('site.documents._list', ['documents' => $documents])
         {{ $documents->links() }}
-    </section>
+    </div>
+</section>
 @endsection

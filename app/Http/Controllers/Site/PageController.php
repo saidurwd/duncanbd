@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Site;
 
 use App\Domain\Cms\Blocks\BlockMedia;
+use App\Domain\Cms\Blocks\BlockType;
 use App\Domain\Cms\Models\Page;
+use App\Domain\Media\Models\MediaItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 
@@ -32,13 +34,64 @@ class PageController extends Controller
 
     private function render(Page $page, bool $preview = false): View
     {
-        $blocks = $page->blocks ?? [];
+        $blocks = $this->withDefaults($page->blocks ?? []);
+
+        $media = BlockMedia::forBlocks($blocks);
+        $ogId = $page->seo['og_media_id'] ?? null;
+        $og = $ogId ? $media->get($ogId) ?? MediaItem::with('media')->find($ogId) : null;
 
         return view('site.page', [
             'page' => $page,
             'blocks' => $blocks,
-            'media' => BlockMedia::forBlocks($blocks),
+            'media' => $media,
             'preview' => $preview,
+            'ogImage' => $og?->getFirstMediaUrl('file', 'large') ?: null,
+            'breadcrumbs' => $page->path === 'home' ? [] : $this->breadcrumbs($page),
         ]);
+    }
+
+    /**
+     * Blocks saved before a schema gained a field lack that key; give every block every field.
+     *
+     * @param  array<int, array<string, mixed>>  $blocks
+     * @return list<array<string, mixed>>
+     */
+    private function withDefaults(array $blocks): array
+    {
+        $out = [];
+
+        foreach ($blocks as $block) {
+            $type = BlockType::tryFrom((string) ($block['type'] ?? ''));
+
+            if ($type) {
+                $block['data'] = array_merge(array_fill_keys(array_keys($type->fields()), null), (array) ($block['data'] ?? []));
+                $out[] = $block;
+            }
+        }
+
+        return $out;
+    }
+
+    /** @return list<array{label: string, url: string}> Home plus each live ancestor that exists as a page. */
+    private function breadcrumbs(Page $page): array
+    {
+        $segments = explode('/', $page->path);
+        $paths = [];
+        foreach ($segments as $i => $_) {
+            $paths[] = implode('/', array_slice($segments, 0, $i + 1));
+        }
+
+        $trail = Page::live()->whereIn('path', $paths)->get(['title', 'path'])->keyBy('path');
+        $crumbs = [['label' => 'Home', 'url' => '/']];
+
+        foreach ($paths as $path) {
+            if ($path === $page->path) {
+                $crumbs[] = ['label' => $page->title, 'url' => '/'.$path];
+            } elseif ($ancestor = $trail->get($path)) {
+                $crumbs[] = ['label' => $ancestor->title, 'url' => '/'.$path];
+            }
+        }
+
+        return $crumbs;
     }
 }

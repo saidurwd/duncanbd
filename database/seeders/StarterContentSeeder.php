@@ -63,6 +63,10 @@ class StarterContentSeeder extends Seeder
                 $this->block('rich_text', ['heading' => 'Sustainability', 'body' => '<p>REPLACE</p>']),
                 $this->block('document_list', ['heading' => 'Sustainability reports', 'category' => 'sustainability-reports', 'limit' => 10]),
             ]],
+            'privacy-notice' => ['Privacy notice', null, [$this->block('rich_text', ['heading' => 'Privacy notice', 'body' => '<p>REPLACE: legal review required (Bangladesh data-protection law and Camellia Group standards).</p>'])]],
+            'cookie-policy' => ['Cookie policy', null, [$this->block('rich_text', ['heading' => 'Cookie policy', 'body' => '<p>REPLACE</p>'])]],
+            'terms-of-use' => ['Terms of use', null, [$this->block('rich_text', ['heading' => 'Terms of use', 'body' => '<p>REPLACE</p>'])]],
+            'accessibility' => ['Accessibility statement', null, [$this->block('rich_text', ['heading' => 'Accessibility statement', 'body' => '<p>REPLACE: publish after the WCAG 2.2 AA audit.</p>'])]],
             'investors' => ['Investors & shareholders', null, [
                 $this->block('document_list', ['heading' => 'Annual reports', 'category' => 'annual-reports', 'limit' => 10]),
                 $this->block('document_list', ['heading' => 'AGM & EGM notices', 'category' => 'agm-egm-notices', 'limit' => 10]),
@@ -88,6 +92,23 @@ class StarterContentSeeder extends Seeder
         }
 
         $this->seedMenu($pages);
+        $this->seedLegalMenu();
+    }
+
+    private function seedLegalMenu(): void
+    {
+        if (Menu::where('location', MenuLocation::Legal->value)->exists()) {
+            return;
+        }
+
+        $items = [];
+        foreach (['privacy-notice', 'cookie-policy', 'terms-of-use', 'accessibility'] as $path) {
+            if ($page = Page::where('path', $path)->first()) {
+                $items[] = ['label' => $page->title, 'page_id' => $page->id, 'is_active' => true];
+            }
+        }
+
+        app(SaveMenu::class)(MenuLocation::Legal, $items);
     }
 
     /** @param array<string, mixed> $pages */

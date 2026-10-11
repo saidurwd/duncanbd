@@ -4,6 +4,7 @@
 
 @section('content')
     <article class="block">
+<div class="container">
         <p><a href="{{ route('business.show', $business->slug) }}">← {{ $business->name }}</a></p>
         <h1>{{ $estate->name }}</h1>
         @if ($estate->photo?->getFirstMedia('file'))
@@ -22,5 +23,6 @@
         @if ($estate->lat && $estate->lng)
             <p><a href="https://www.openstreetmap.org/?mlat={{ $estate->lat }}&mlon={{ $estate->lng }}#map=13/{{ $estate->lat }}/{{ $estate->lng }}" rel="noopener">View on map</a></p>
         @endif
-    </article>
+    </div>
+</article>
 @endsection

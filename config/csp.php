@@ -1,9 +1,9 @@
 <?php
 
+use Spatie\Csp\Directive;
 use Spatie\Csp\Nonce\RandomString;
 use Spatie\Csp\Presets\Basic;
 
-// use Spatie\Csp\Directive;
 // use Spatie\Csp\Keyword;
 
 return [
@@ -20,7 +20,15 @@ return [
      * Register additional global CSP directives here.
      */
     'directives' => [
-        // [Directive::SCRIPT, [Keyword::UNSAFE_EVAL, Keyword::UNSAFE_INLINE]],
+        // Click-to-load video (privacy-enhanced YouTube domain).
+        [Directive::FRAME, 'https://www.youtube-nocookie.com'],
+        // Google Analytics: the script is only injected after the visitor accepts cookies, and
+        // these hosts are only allowed when ANALYTICS is switched on in the environment.
+        ...(env('CSP_ALLOW_ANALYTICS', false) ? [
+            [Directive::SCRIPT, 'https://www.googletagmanager.com'],
+            [Directive::IMG, ['https://www.google-analytics.com', 'https://www.googletagmanager.com']],
+            [Directive::CONNECT, ['https://www.google-analytics.com', 'https://*.google-analytics.com', 'https://*.analytics.google.com', 'https://www.googletagmanager.com']],
+        ] : []),
     ],
 
     /*

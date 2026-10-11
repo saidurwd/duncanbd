@@ -5,6 +5,7 @@
 
 @section('content')
     <article class="block">
+<div class="container">
         <p><a href="{{ route('news.index') }}">← All news</a></p>
         <h1>{{ $post->title }}</h1>
         <p class="meta"><time datetime="{{ $post->published_at->toDateString() }}">{{ $post->published_at->timezone('Asia/Dhaka')->format('j F Y') }}</time> · {{ $post->type->label() }}</p>
@@ -14,5 +15,6 @@
         @endif
         {{-- Sanitised with the HTMLPurifier allow-list on save. --}}
         <div class="prose">{!! $post->body !!}</div>
-    </article>
+    </div>
+</article>
 @endsection

@@ -1,1 +1,6 @@
-// Public site scripts (Phase 5)
+import './menu';
+import './slider';
+import './consent';
+import './video';
+import './stats';
+import './gallery';

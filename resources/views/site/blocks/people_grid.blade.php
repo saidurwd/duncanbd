@@ -1,5 +1,6 @@
 @inject('content', 'App\Domain\Content\ContentQuery')
 <section class="block block-people">
+    <div class="container">
     @if ($data['heading'])<h2>{{ $data['heading'] }}</h2>@endif
     <div class="cards">
         @foreach ($content->people($data['group']) as $person)
@@ -12,5 +13,6 @@
                 @if ($person->bio)<details><summary>Biography</summary><div class="prose">{!! $person->bio !!}</div></details>@endif
             </article>
         @endforeach
+    </div>
     </div>
 </section>

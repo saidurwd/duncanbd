@@ -32,6 +32,9 @@ jobs:
           cp .env.example .env
           php artisan key:generate
 
+      - name: Build assets (feature tests render the Vite manifest)
+        run: npm run build
+
       - name: Code style (Pint)
         run: ./vendor/bin/pint --test
 
@@ -45,6 +48,3 @@ jobs:
         run: |
           composer audit
           npm audit --audit-level=high
-
-      - name: Build assets
-        run: npm run build

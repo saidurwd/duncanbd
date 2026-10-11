@@ -10,6 +10,7 @@ use App\Domain\Documents\Policies\DocumentPolicy;
 use App\Listeners\HandlePagePathChanged;
 use App\Listeners\InvalidatePublicCaches;
 use App\Listeners\LogAuthActivity;
+use App\View\Composers\SiteComposer;
 use Carbon\CarbonImmutable;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
@@ -18,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -31,6 +33,8 @@ class AppServiceProvider extends ServiceProvider
         Date::use(CarbonImmutable::class);
 
         Event::listen([Login::class, Logout::class, Failed::class], LogAuthActivity::class);
+
+        View::composer(['layouts.site', 'site.*'], SiteComposer::class);
 
         Gate::policy(Document::class, DocumentPolicy::class);
 

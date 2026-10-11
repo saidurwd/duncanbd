@@ -13,6 +13,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        // Fonts and images must be real files: the CSP does not allow data: URIs.
+        assetsInlineLimit: 0,
+    },
     css: {
         preprocessorOptions: {
             scss: { quietDeps: true, silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'mixed-decls'] },

@@ -4,6 +4,7 @@
 
 @section('content')
     <section class="block">
+<div class="container">
         <h1>News &amp; media</h1>
         <nav aria-label="Filter news">
             <a href="{{ route('news.index') }}">All</a> |
@@ -15,5 +16,6 @@
             @forelse ($posts as $post)@include('site.news._card', ['post' => $post])@empty<p>No stories yet.</p>@endforelse
         </div>
         {{ $posts->links() }}
-    </section>
+    </div>
+</section>
 @endsection

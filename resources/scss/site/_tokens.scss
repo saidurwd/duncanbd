@@ -1,0 +1,38 @@
+// Design tokens (architecture doc §3). Values marked "proposed" in the plan await the Camellia brand pack —
+// change them here and the whole site re-themes.
+@import '@fontsource-variable/inter';
+@import '@fontsource/playfair-display/400.css';
+@import '@fontsource/playfair-display/700.css';
+
+:root {
+    --color-primary: #2c3f5c;
+    --color-primary-dark: #1e2c41;
+    --color-accent: #4a7a37; // tea green, darkened from the proposed #5e8c4a to pass AA on white
+    --color-accent-warm: #c8a15a;
+    --color-surface: #fff;
+    --color-surface-alt: #f4f5f2;
+    --color-text: #1f2933;
+    --color-text-muted: #5b6670;
+    --color-border: #d9dde1;
+    --color-focus: #f2b705;
+
+    --font-display: 'Playfair Display', 'Libre Baskerville', Georgia, serif;
+    --font-body: 'Inter Variable', 'Source Sans 3', system-ui, sans-serif;
+
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2rem;
+    --space-6: 3rem;
+    --space-8: 4rem;
+    --space-12: 6rem;
+
+    --section-pad: 3.5rem;
+    --content-max: 1280px;
+    --gutter: 1rem;
+
+    @media (min-width: 768px) {
+        --section-pad: var(--space-12);
+        --gutter: 2rem;
+    }
+}
