@@ -56,3 +56,7 @@
 .app-footer { padding: 0.9rem 1.25rem; border-top: 1px solid var(--bs-border-color); background: var(--bs-body-bg); }
 .app-content-header { padding: 1rem 0.5rem 0.25rem; }
 .breadcrumb-item + .breadcrumb-item::before { content: '/'; }
+
+.branding-preview { display: inline-block; max-width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--bs-border-color); border-radius: 0.375rem; background: #fff; img { max-height: 4rem; max-width: 100%; display: block; } &--dark { background: #2c3f5c; } }
+
+.login-logo__img { max-height: 4.5rem; max-width: 100%; margin-bottom: 0.25rem; }

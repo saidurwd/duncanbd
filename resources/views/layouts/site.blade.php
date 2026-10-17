@@ -6,7 +6,7 @@
     <title>@yield('title', $site['name'])</title>
     <meta name="description" content="@hasSection('description')@yield('description')@else{{ $site['default_description'] }}@endif">
     <meta name="theme-color" content="#2c3f5c">
-    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    @if ($site['favicon'])<link rel="icon" href="{{ $site['favicon']['path'] }}" type="image/png">@else<link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">@endif
     <link rel="canonical" href="{{ url()->current() }}">
     <meta property="og:site_name" content="{{ $site['name'] }}">
     <meta property="og:title" content="@yield('title', $site['name'])">

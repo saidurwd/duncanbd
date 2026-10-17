@@ -94,3 +94,8 @@ article.block img { border-radius: 2px; margin-bottom: var(--space-3); }
 
 // On phones the pause control moves to the top corner so it never overlaps the slide dots.
 @media (max-width: 767px) { .block-hero__pause { top: 0.75rem; bottom: auto; } }
+
+// Uploaded company logo: sized by its own height so any aspect ratio fits the header and footer.
+.site-header__logo { height: 2.75rem; width: auto; max-width: 16rem; object-fit: contain; }
+.site-footer__logo { height: 3rem; width: auto; max-width: 16rem; object-fit: contain; }
+@media (max-width: 575px) { .site-header__logo { height: 2.25rem; max-width: 11rem; } }

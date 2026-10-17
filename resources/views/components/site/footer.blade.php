@@ -3,7 +3,13 @@
     <div class="container">
         <div class="site-footer__grid">
             <div class="site-footer__about">
-                <a href="{{ url('/') }}" class="site-footer__brand"><img src="{{ asset('favicon.svg') }}" alt="" width="44" height="44"><span>{{ $site['name'] }}</span></a>
+                <a href="{{ url('/') }}" class="site-footer__brand">
+                    @if ($site['logo'])
+                        <img src="{{ $site['logo']['path'] }}" alt="{{ $site['name'] }}" width="{{ $site['logo']['width'] ?: 160 }}" height="{{ $site['logo']['height'] ?: 48 }}" class="site-footer__logo" loading="lazy">
+                    @else
+                        <img src="{{ asset('favicon.svg') }}" alt="" width="44" height="44"><span>{{ $site['name'] }}</span>
+                    @endif
+                </a>
                 @if ($site['tagline'])<p>{{ $site['tagline'] }}</p>@endif
                 @if ($site['group_name'])<p class="site-footer__group">A member of the <a href="{{ $site['group_url'] ?? '#' }}" rel="noopener">{{ $site['group_name'] }}</a> group.</p>@endif
                 @if ($site['socials'])

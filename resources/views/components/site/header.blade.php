@@ -2,8 +2,12 @@
 <header class="site-header" data-site-header>
     <div class="container">
         <a href="{{ url('/') }}" class="site-header__brand" aria-label="{{ $site['name'] }} — home">
-            <img src="{{ asset('favicon.svg') }}" alt="" width="40" height="40" class="site-header__mark">
-            <span class="site-header__name">{{ $site['name'] }}</span>
+            @if ($site['logo'])
+                <img src="{{ $site['logo']['path'] }}" alt="{{ $site['name'] }}" width="{{ $site['logo']['width'] ?: 160 }}" height="{{ $site['logo']['height'] ?: 48 }}" class="site-header__logo">
+            @else
+                <img src="{{ asset('favicon.svg') }}" alt="" width="40" height="40" class="site-header__mark">
+                <span class="site-header__name">{{ $site['name'] }}</span>
+            @endif
         </a>
 
         <nav class="primary-nav" aria-label="Primary">

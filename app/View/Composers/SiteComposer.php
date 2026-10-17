@@ -28,6 +28,7 @@ class SiteComposer
             '@type' => 'Organization',
             'name' => $name,
             'url' => url('/'),
+            'logo' => ($logo = $get('branding', 'logo')) ? url($logo['path'] ?? '') : null,
             'email' => $get('contact', 'email'),
             'telephone' => $get('contact', 'phone'),
             'sameAs' => array_values($socials) ?: null,
@@ -38,7 +39,11 @@ class SiteComposer
             ]) : null,
         ]);
 
+        $brand = fn (string $slot) => is_array($v = $get('branding', $slot)) && isset($v['path']) ? $v : null;
+
         $view->with('site', [
+            'logo' => $brand('logo'),
+            'favicon' => $brand('favicon'),
             'name' => $name,
             'tagline' => $get('identity', 'tagline'),
             'default_description' => $get('seo', 'default_description') ?: $get('identity', 'tagline') ?: $name.' — corporate website',

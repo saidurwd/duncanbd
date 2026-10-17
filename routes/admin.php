@@ -27,6 +27,7 @@ Route::middleware(['auth', 'admin.access'])->group(function () {
     Route::middleware('permission:settings.manage')->group(function () {
         Route::get('/settings', [SettingsController::class, 'edit'])->name('settings.edit');
         Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+        Route::post('/settings/branding', [SettingsController::class, 'branding'])->name('settings.branding');
     });
 
     Route::get('/media', [MediaController::class, 'index'])->middleware('permission:media.manage|media.view')->name('media.index');

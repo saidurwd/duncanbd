@@ -3,6 +3,35 @@
 @section('title', 'Settings')
 
 @section('content')
+    <div class="card mb-4">
+        <div class="card-header"><h2 class="card-title">Branding: logo and favicon</h2></div>
+        <div class="card-body">
+            <form method="POST" action="{{ route('admin.settings.branding') }}" enctype="multipart/form-data" class="row g-4">
+                @csrf
+                @foreach ($branding['slots'] as $slot => $label)
+                    @php($current = $branding['current'][$slot] ?? null)
+                    <div class="col-lg-4">
+                        <label for="b-{{ $slot }}" class="form-label fw-semibold">{{ $label }}</label>
+                        @if ($current)
+                            <div class="branding-preview {{ $slot === 'logo' ? 'branding-preview--dark' : '' }} mb-2"><img src="{{ $current['path'] }}" alt="Current {{ strtolower($label) }}"></div>
+                        @else
+                            <p class="text-muted small">Not set.</p>
+                        @endif
+                        <input id="b-{{ $slot }}" type="file" name="{{ $slot }}" class="form-control @error($slot) is-invalid @enderror" accept="{{ $slot === 'favicon' ? 'image/png' : 'image/png,image/jpeg,image/webp' }}">
+                        @error($slot)<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                        @if ($current)
+                            <div class="form-check mt-2"><input id="rm-{{ $slot }}" type="checkbox" name="remove[]" value="{{ $slot }}" class="form-check-input"><label for="rm-{{ $slot }}" class="form-check-label">Remove</label></div>
+                        @endif
+                    </div>
+                @endforeach
+                <div class="col-12">
+                    <p class="form-text mb-2">PNG with a transparent background gives the best result (JPEG and WebP also work; SVG is not accepted). The header and footer are dark blue, so supply a <strong>white or light</strong> version of the logo there. Maximum 2 MB; the favicon must be a square PNG.</p>
+                    <button class="btn btn-primary">Save branding</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     @php($active = array_key_first($groups))
     <form method="POST" action="{{ route('admin.settings.update') }}">
         @csrf
