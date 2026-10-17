@@ -60,7 +60,7 @@ main > .block:nth-of-type(even) .card-item { background: #fff; }
 // Hero slider controls
 .block-hero { &__nav { position: absolute; z-index: 3; left: 0; right: 0; bottom: var(--space-2); display: flex; align-items: center; justify-content: center; gap: 0.5rem; pointer-events: none; > * { pointer-events: auto; } }
     &__arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.8); background: rgba(0, 0, 0, 0.35); color: #fff; font-size: 1.3rem; cursor: pointer; display: none; &:hover { background: rgba(0, 0, 0, 0.6); } @media (min-width: 768px) { display: grid; place-items: center; } &--prev { left: 1rem; } &--next { right: 1rem; } }
-    &__dot { width: 0.8rem; height: 0.8rem; border-radius: 50%; border: 2px solid #fff; background: transparent; padding: 0; cursor: pointer; &[aria-current='true'] { background: #fff; } }
+    &__dot { position: relative; width: 1.5rem; height: 1.5rem; border: 0; background: transparent; padding: 0; cursor: pointer; &::before { content: ''; position: absolute; inset: 0.35rem; border-radius: 50%; border: 2px solid #fff; background: transparent; } &[aria-current='true']::before { background: #fff; } }
     &__text p { text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5); }
 }
 
@@ -91,3 +91,6 @@ article.block img { border-radius: 2px; margin-bottom: var(--space-3); }
 
 .page-hero + .block.block-text { padding-bottom: var(--space-2); }
 .site-header__name { max-width: 16rem; }
+
+// On phones the pause control moves to the top corner so it never overlaps the slide dots.
+@media (max-width: 767px) { .block-hero__pause { top: 0.75rem; bottom: auto; } }

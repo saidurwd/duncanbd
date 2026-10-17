@@ -89,6 +89,10 @@ class LegacyContentSeeder extends Seeder
             return;
         }
 
+        // Create the resized WebP versions now: with a queued driver and no worker running they would never exist
+        // and pages would serve the full-size originals.
+        config(['media-library.queue_conversions_by_default' => false]);
+
         $manifest = json_decode(file_get_contents($manifestFile), true, flags: JSON_THROW_ON_ERROR);
         $this->call([RolesAndPermissionsSeeder::class, DocumentCategorySeeder::class]);
 

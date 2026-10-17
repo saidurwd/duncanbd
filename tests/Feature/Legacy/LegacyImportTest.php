@@ -172,14 +172,20 @@ it('fails clearly without a manifest', function () {
 it('cleans legacy HTML', function () {
     $out = app(LegacyHtml::class)->clean('<h5 align="center">Small</h5><p>&nbsp;</p><hr><p><font color="red">Text</font></p><iframe src="x"></iframe><img src="/uploads/banners/a%20b.jpg">');
 
-    expect($out['html'])->toBe('<h4>Small</h4><p>Text</p>')->and($out['images'])->toBe(['a b.jpg']);
+    expect($out['html'])->toBe('<h2>Small</h2><p>Text</p>')->and($out['images'])->toBe(['a b.jpg']);
 });
 
 it('drops the repeated title heading and promotes bold-only lines to subheadings', function () {
     $out = app(LegacyHtml::class)->clean('<h4>History of Duncan</h4><p>Intro text.</p><p><strong>The Start of the Tea Business</strong></p><p>More text.</p><p><strong>A long bold sentence that is a real paragraph and ends with a full stop.</strong></p>', 'History of Duncan');
 
     expect($out['html'])->not->toContain('<h4>History of Duncan</h4>')
-        ->toContain('<h3>The Start of the Tea Business</h3>')
+        ->toContain('<h2>The Start of the Tea Business</h2>')
         ->toContain('<p>Intro text.</p>')
         ->toContain('<strong>A long bold sentence');   // real bold paragraphs stay paragraphs
+});
+
+it('shifts legacy heading levels so sections start at H2 and never skip a level', function () {
+    $out = app(LegacyHtml::class)->clean('<h3>Camellia Duncan Foundation Hospital</h3><p>Text.</p><h4>Detail</h4><p><strong>Bold section</strong></p>', 'Something else');
+
+    expect($out['html'])->toContain('<h2>Camellia Duncan Foundation Hospital</h2>')->toContain('<h3>Detail</h3>')->toContain('<h3>Bold section</h3>')->not->toContain('<h4>')->not->toContain('<h1');
 });

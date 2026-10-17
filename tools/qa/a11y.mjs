@@ -7,9 +7,10 @@ import { BASE, launch, sleep } from './lib.mjs';
 const require = createRequire(import.meta.url);
 const axeSource = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 
-const urls = ['/', '/who-we-are', '/what-we-do', '/investors', '/sustainability', '/news', '/news/' + new Date().getFullYear() + '/demo-story-1',
-    '/documents', '/documents/annual-reports', '/what-we-do/tea', '/what-we-do/tea/estates/kodala', '/careers/vacancies', '/careers/vacancies/assistant-estate-manager',
-    '/careers/vacancies/assistant-estate-manager/apply', '/contact', '/newsletter', '/search?q=tea', '/sitemap', '/privacy-notice', '/does-not-exist'];
+const urls = (process.env.QA_URLS ? process.env.QA_URLS.split(',') : ['/', '/about-duncan', '/about-duncan/history-of-duncan', '/products', '/products/tea', '/products/tea/gardens',
+    '/products/natural-mineral-water', '/corporate-responsibility', '/corporate-responsibility/cdf-hospital', '/associate-companies', '/associate-companies/cwl', '/gallery',
+    '/news', '/news/' + new Date().getFullYear() + '/42nd-eastland-camellia-limited-annual-general-meeting-2025', '/documents', '/documents/annual-reports', '/what-we-do/tea/estates/lungla',
+    '/careers/vacancies', '/contact', '/newsletter', '/search?q=tea', '/sitemap', '/does-not-exist']);
 const viewports = { desktop: { width: 1280, height: 900 }, tablet: { width: 1000, height: 800 }, mobile: { width: 390, height: 844, isMobile: true, deviceScaleFactor: 2 } };
 const tags = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa', 'best-practice'];
 

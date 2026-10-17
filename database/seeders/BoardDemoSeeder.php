@@ -65,6 +65,10 @@ class BoardDemoSeeder extends Seeder
             return;
         }
 
+        // Create the resized WebP versions now: with a queued driver and no worker running they would never exist
+        // and pages would serve the full-size originals.
+        config(['media-library.queue_conversions_by_default' => false]);
+
         $this->call([RolesAndPermissionsSeeder::class, DocumentCategorySeeder::class]);
         $this->wipeContent();
 

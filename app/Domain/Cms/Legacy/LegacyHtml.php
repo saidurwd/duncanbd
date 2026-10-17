@@ -75,12 +75,31 @@ class LegacyHtml
             }
         }
 
-        // <p><strong>The Start of the Tea Business</strong></p> is a subheading in the old editor's habits.
+        // The page title is the H1, so section headings must start at H2 and never skip a level:
+        // shift whatever level the old editor used (often H4) so the shallowest heading becomes H2, capped at H4.
+        $levels = [];
+        foreach (iterator_to_array($xp->query('//h2|//h3|//h4|//h5|//h6')) as $heading) {
+            $levels[] = (int) substr($heading->nodeName, 1);
+        }
+        $hasHeadings = $levels !== [];
+        if ($hasHeadings) {
+            $shift = min($levels) - 2;
+            foreach (iterator_to_array($xp->query('//h2|//h3|//h4|//h5|//h6')) as $old) {
+                $new = $doc->createElement('h'.min(4, max(2, (int) substr($old->nodeName, 1) - $shift)));
+                while ($old->firstChild) {
+                    $new->appendChild($old->firstChild);
+                }
+                $old->parentNode?->replaceChild($new, $old);
+            }
+        }
+
+        // <p><strong>The Start of the Tea Business</strong></p> is a subheading in the old editor's habits:
+        // H2 when the page has no other headings, otherwise one level below them.
         foreach (iterator_to_array($xp->query('//p[count(*)=1 and strong]')) as $para) {
             $text = trim(str_replace("\xC2\xA0", ' ', $para->textContent));
             $strong = trim(str_replace("\xC2\xA0", ' ', $para->getElementsByTagName('strong')->item(0)->textContent ?? ''));
             if ($text !== '' && $text === $strong && mb_strlen($text) <= 90 && ! str_ends_with($text, '.')) {
-                $h = $doc->createElement('h3', $text);
+                $h = $doc->createElement($hasHeadings ? 'h3' : 'h2', $text);
                 $para->parentNode?->replaceChild($h, $para);
             }
         }

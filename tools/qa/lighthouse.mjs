@@ -4,7 +4,7 @@ import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 import { BASE, CHROME } from './lib.mjs';
 
-const pages = ['/', '/who-we-are', '/news', '/documents/annual-reports', '/what-we-do/tea', '/contact', '/careers/vacancies'];
+const pages = (process.env.QA_URLS ? process.env.QA_URLS.split(',') : ['/', '/about-duncan/history-of-duncan', '/products/tea', '/news', '/documents/annual-reports', '/gallery', '/contact']);
 const chrome = await chromeLauncher.launch({ chromePath: CHROME, chromeFlags: ['--headless=new', '--no-sandbox', '--disable-gpu'] });
 const rows = [];
 for (const path of pages) {
