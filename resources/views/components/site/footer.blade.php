@@ -30,6 +30,7 @@
                 <h2>Contact</h2>
                 @foreach ($site['addresses'] as $address)<address>{!! nl2br(e($address)) !!}</address>@endforeach
                 @if ($site['phone'])<p>Tel: <a href="tel:{{ preg_replace('/[^\d+]/', '', explode(',', $site['phone'])[0]) }}">{{ $site['phone'] }}</a></p>@endif
+                @if ($site['fax'])<p>Fax: {{ $site['fax'] }}</p>@endif
                 @if ($site['email'])<p><a href="mailto:{{ $site['email'] }}">{{ $site['email'] }}</a></p>@endif
             </div>
         </div>

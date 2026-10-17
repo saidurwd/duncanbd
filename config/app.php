@@ -18,6 +18,9 @@ return [
     // Shown in the admin footer; set APP_VERSION from the release tag at deploy time.
     'version' => env('APP_VERSION', 'dev'),
 
+    // Allows LegacyContentSeeder to replace existing content on production (deletes it!). Leave unset normally.
+    'legacy_reset' => env('LEGACY_RESET', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

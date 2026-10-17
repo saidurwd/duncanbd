@@ -21,12 +21,12 @@ use App\Domain\News\Models\Post;
 use App\Domain\People\Models\Person;
 use App\Domain\People\Models\TimelineEvent;
 use App\Domain\Settings\SettingsRepository;
+use Database\Seeders\Concerns\WipesContent;
 use Illuminate\Database\Seeder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Spatie\ResponseCache\Facades\ResponseCache;
 
@@ -45,6 +45,8 @@ use Spatie\ResponseCache\Facades\ResponseCache;
  */
 class BoardDemoSeeder extends Seeder
 {
+    use WipesContent;
+
     /** @var array<string, int> legacy file name => media item id */
     private array $m = [];
 
@@ -64,7 +66,7 @@ class BoardDemoSeeder extends Seeder
         }
 
         $this->call([RolesAndPermissionsSeeder::class, DocumentCategorySeeder::class]);
-        $this->wipe();
+        $this->wipeContent();
 
         $admin = User::firstOrCreate(
             ['email' => 'board-demo@example.com'],
@@ -86,18 +88,6 @@ class BoardDemoSeeder extends Seeder
         ResponseCache::clear();
 
         $this->command->info('Board demo ready. Admin: board-demo@example.com / Board-Demo-2026-Pass! (set up 2FA at first sign-in)');
-    }
-
-    private function wipe(): void
-    {
-        Schema::disableForeignKeyConstraints();
-        foreach (['menu_items', 'menus', 'redirects', 'not_found_log', 'revisions', 'pages', 'document_versions', 'documents', 'posts', 'news_categories',
-            'estates', 'businesses', 'people', 'timeline_events', 'applications', 'vacancies', 'subscribers', 'enquiries', 'media', 'media_items', 'media_folders', 'settings'] as $table) {
-            DB::table($table)->truncate();
-        }
-        Schema::enableForeignKeyConstraints();
-        File::cleanDirectory(storage_path('app/public'));
-        File::cleanDirectory(storage_path('app/private/documents'));
     }
 
     // ---- settings -----------------------------------------------------------------------------------

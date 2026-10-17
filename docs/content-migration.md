@@ -1,3 +1,5 @@
+> **Update 17 Oct 2026:** the old site's inner pages are now public, so the full crawl works. The recommended path is the single seeder described in [go-live-content.md](go-live-content.md). The generic `legacy:import` command below remains for partial imports.
+
 # Content migration from the legacy duncanbd.com
 
 Two steps: **crawl** the old site into a local manifest, then **import** it as draft CMS content.

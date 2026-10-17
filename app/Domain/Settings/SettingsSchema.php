@@ -44,6 +44,7 @@ class SettingsSchema
                 'fields' => [
                     'email' => ['label' => 'General email', 'type' => 'email', 'rules' => ['nullable', 'email', 'max:255']],
                     'phone' => ['label' => 'Phone', 'type' => 'text', 'rules' => ['nullable', 'string', 'max:40']],
+                    'fax' => ['label' => 'Fax', 'type' => 'text', 'rules' => ['nullable', 'string', 'max:80']],
                     'address_dhaka' => ['label' => 'Dhaka address', 'type' => 'textarea', 'rules' => ['nullable', 'string', 'max:500']],
                     'address_chattogram' => ['label' => 'Chattogram address', 'type' => 'textarea', 'rules' => ['nullable', 'string', 'max:500']],
                 ],

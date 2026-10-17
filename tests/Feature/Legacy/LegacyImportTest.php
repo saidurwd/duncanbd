@@ -106,10 +106,10 @@ it('keeps structure for unreadable pages and flags them for an editor', function
 it('imports gallery images into folders with titles, alt text and private originals', function () {
     runImport();
 
-    $item = MediaItem::where('title', 'Tapping (female worker)')->firstOrFail();
+    $item = MediaItem::where('title', 'A worker tapping a rubber tree')->firstOrFail();
 
     expect(MediaItem::count())->toBe(2)
-        ->and($item->alt_text)->toBe('Tapping (female worker)')
+        ->and($item->alt_text)->toBe('A worker tapping a rubber tree')
         ->and($item->folder->name)->toBe('Tea')
         ->and($item->getFirstMedia('file')->file_name)->not->toContain('tapping');
     expect(Page::where('path', 'products/tea/gallery')->first()->blocks[0]['data']['items'])->toHaveCount(2);
@@ -173,4 +173,13 @@ it('cleans legacy HTML', function () {
     $out = app(LegacyHtml::class)->clean('<h5 align="center">Small</h5><p>&nbsp;</p><hr><p><font color="red">Text</font></p><iframe src="x"></iframe><img src="/uploads/banners/a%20b.jpg">');
 
     expect($out['html'])->toBe('<h4>Small</h4><p>Text</p>')->and($out['images'])->toBe(['a b.jpg']);
+});
+
+it('drops the repeated title heading and promotes bold-only lines to subheadings', function () {
+    $out = app(LegacyHtml::class)->clean('<h4>History of Duncan</h4><p>Intro text.</p><p><strong>The Start of the Tea Business</strong></p><p>More text.</p><p><strong>A long bold sentence that is a real paragraph and ends with a full stop.</strong></p>', 'History of Duncan');
+
+    expect($out['html'])->not->toContain('<h4>History of Duncan</h4>')
+        ->toContain('<h3>The Start of the Tea Business</h3>')
+        ->toContain('<p>Intro text.</p>')
+        ->toContain('<strong>A long bold sentence');   // real bold paragraphs stay paragraphs
 });

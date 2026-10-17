@@ -46,6 +46,7 @@ class SiteComposer
             'group_url' => $get('identity', 'group_url'),
             'email' => $get('contact', 'email'),
             'phone' => $get('contact', 'phone'),
+            'fax' => $get('contact', 'fax'),
             'addresses' => array_filter([$get('contact', 'address_dhaka'), $get('contact', 'address_chattogram')]),
             'socials' => $socials,
             'footer_text' => $get('footer', 'footer_text'),

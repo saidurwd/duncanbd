@@ -13,7 +13,7 @@ use DOMXPath;
 class LegacyHtml
 {
     /** @return array{html: string, images: list<string>} images are the basenames referenced via <img> */
-    public function clean(string $html): array
+    public function clean(string $html, ?string $dropHeadingLike = null): array
     {
         $html = trim($html);
 
@@ -60,6 +60,28 @@ class LegacyHtml
             }
             foreach (['style', 'class', 'id', 'align', 'width', 'height'] as $attr) {
                 $el->removeAttribute($attr);
+            }
+        }
+
+        // Legacy pages repeat their own title as the first heading; the new page already shows it.
+        if ($dropHeadingLike !== null) {
+            $needle = mb_strtolower(trim(preg_replace('/[^\p{L}\p{N}]+/u', ' ', $dropHeadingLike)));
+            foreach ($xp->query('//h2|//h3|//h4|//h5|//h6') as $heading) {
+                $text = mb_strtolower(trim(preg_replace('/[^\p{L}\p{N}]+/u', ' ', $heading->textContent)));
+                if ($text !== '' && ($text === $needle || str_contains($needle, $text) || str_contains($text, $needle))) {
+                    $heading->parentNode?->removeChild($heading);
+                }
+                break; // only ever the first heading
+            }
+        }
+
+        // <p><strong>The Start of the Tea Business</strong></p> is a subheading in the old editor's habits.
+        foreach (iterator_to_array($xp->query('//p[count(*)=1 and strong]')) as $para) {
+            $text = trim(str_replace("\xC2\xA0", ' ', $para->textContent));
+            $strong = trim(str_replace("\xC2\xA0", ' ', $para->getElementsByTagName('strong')->item(0)->textContent ?? ''));
+            if ($text !== '' && $text === $strong && mb_strlen($text) <= 90 && ! str_ends_with($text, '.')) {
+                $h = $doc->createElement('h3', $text);
+                $para->parentNode?->replaceChild($h, $para);
             }
         }
 

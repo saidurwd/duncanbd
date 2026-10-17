@@ -59,6 +59,24 @@ class LegacyImporter
         });
     }
 
+    /**
+     * Media and documents only (used by the go-live seeder, which builds its own pages).
+     *
+     * @param  array<string, mixed>  $manifest
+     */
+    public function importAssets(array $manifest, string $filesDir, User $user): void
+    {
+        DB::transaction(function () use ($manifest, $filesDir, $user) {
+            $this->importMedia($manifest, $filesDir, $user);
+            $this->importDocuments($manifest, $filesDir, $user);
+        });
+    }
+
+    public function mediaId(string $legacyFile): ?int
+    {
+        return $this->mediaIds[$legacyFile] ?? null;
+    }
+
     // ---- media ------------------------------------------------------------------------------------
 
     /** @param array<string, mixed> $manifest */
@@ -101,7 +119,7 @@ class LegacyImporter
 
         // Legacy filenames are descriptive ("1486437447_tapping_(female_worker).jpg"): reuse them as title and
         // starting alt text. They are flagged in the report for an editor to review.
-        $title = Str::of(pathinfo($file, PATHINFO_FILENAME))->replaceMatches('/^\d{8,}_/', '')->replace(['_', '-'], ' ')->squish()->ucfirst()->toString();
+        $title = LegacyAltText::for($file) ?? Str::of(pathinfo($file, PATHINFO_FILENAME))->replaceMatches('/^\d{8,}_/', '')->replace(['_', '-'], ' ')->squish()->ucfirst()->toString();
 
         $item = MediaItem::create([
             'folder_id' => $folderId,
