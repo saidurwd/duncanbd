@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
+use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -45,9 +46,10 @@ class MediaItem extends Model implements HasMedia
 
     public function registerMediaConversions(?Media $media = null): void
     {
-        $this->addMediaConversion('thumb')->performOnCollections(self::COLLECTION)->nonQueued()->width(400)->height(300)->format('webp');
-        $this->addMediaConversion('medium')->performOnCollections(self::COLLECTION)->width(1200)->format('webp');
-        $this->addMediaConversion('large')->performOnCollections(self::COLLECTION)->width(2400)->format('webp');
+        $this->addMediaConversion('thumb')->performOnCollections(self::COLLECTION)->nonQueued()->fit(Fit::Crop, 400, 300)->format('webp')->quality(80);
+        // Fit::Max never enlarges: a small source is not blown up (bigger file, no extra detail).
+        $this->addMediaConversion('medium')->performOnCollections(self::COLLECTION)->fit(Fit::Max, 1200, 1200)->format('webp')->quality(80);
+        $this->addMediaConversion('large')->performOnCollections(self::COLLECTION)->fit(Fit::Max, 2400, 2400)->format('webp')->quality(80);
     }
 
     public function getActivitylogOptions(): LogOptions
