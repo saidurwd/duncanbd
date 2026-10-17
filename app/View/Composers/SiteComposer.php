@@ -44,6 +44,9 @@ class SiteComposer
         $view->with('site', [
             'logo' => $brand('logo'),
             'favicon' => $brand('favicon'),
+            'share_image' => $brand('share_image'),
+            'google_verify' => $get('seo', 'google_site_verification'),
+            'bing_verify' => $get('seo', 'bing_site_verification'),
             'name' => $name,
             'tagline' => $get('identity', 'tagline'),
             'default_description' => $get('seo', 'default_description') ?: $get('identity', 'tagline') ?: $name.' — corporate website',

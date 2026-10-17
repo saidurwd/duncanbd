@@ -27,6 +27,7 @@ enum BlockType: string
     case CtaBand = 'cta_band';
     case AccordionFaq = 'accordion_faq';
     case Map = 'map';
+    case Certifications = 'certifications';
 
     public const SCHEMA_VERSION = 1;
 
@@ -129,6 +130,18 @@ enum BlockType: string
                 'items' => ['label' => 'Questions', 'type' => 'repeater', 'limit' => 40, 'fields' => [
                     'question' => ['label' => 'Question', 'type' => 'text', 'required' => true, 'max' => 200],
                     'answer' => ['label' => 'Answer', 'type' => 'richtext', 'required' => true],
+                ]],
+            ],
+            self::Certifications => [
+                'heading' => ['label' => 'Heading', 'type' => 'text', 'max' => 160],
+                'intro' => ['label' => 'Introduction', 'type' => 'textarea', 'max' => 600],
+                'items' => ['label' => 'Certifications, standards and awards', 'type' => 'repeater', 'limit' => 24, 'fields' => [
+                    'name' => ['label' => 'Name (e.g. ISO 22000:2005)', 'type' => 'text', 'required' => true, 'max' => 120],
+                    'issuer' => ['label' => 'Issued by / standard body', 'type' => 'text', 'max' => 160],
+                    'year' => ['label' => 'Year (optional)', 'type' => 'text', 'max' => 10],
+                    'scope' => ['label' => 'What it covers', 'type' => 'textarea', 'max' => 500],
+                    'media_id' => ['label' => 'Logo or certificate image', 'type' => 'media'],
+                    'url' => ['label' => 'More information link', 'type' => 'url'],
                 ]],
             ],
             self::Map => [

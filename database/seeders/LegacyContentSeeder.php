@@ -111,6 +111,7 @@ class LegacyContentSeeder extends Seeder
         $this->pages($manifest, $importer, $savePage, $html, $user);
         $this->documentsAndNews($manifest, $user);
         $this->menus($saveMenu, $manifest);
+        $this->call(SustainabilityPageSeeder::class);
 
         Cache::flush();
         ResponseCache::clear();

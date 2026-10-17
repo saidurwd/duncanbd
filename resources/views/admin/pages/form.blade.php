@@ -81,6 +81,11 @@
                 <input id="seo_title" name="seo[title]" value="{{ old('seo.title', $page->seo['title'] ?? '') }}" class="form-control" maxlength="70">
             </div>
             <div class="col-md-6">
+                <label for="seo_og" class="form-label">Social share image <span class="text-muted small">(media ID, optional)</span></label>
+                <input id="seo_og" type="number" name="seo[og_media_id]" value="{{ old('seo.og_media_id', $page->seo['og_media_id'] ?? '') }}" class="form-control">
+                <div class="form-text">Shown when this page is shared on social media. Leave empty to use the site-wide default (Settings → Branding). Best: 1200 × 630 px.</div>
+            </div>
+            <div class="col-md-6">
                 <label for="seo_desc" class="form-label">Meta description <span class="text-muted small">(≤ 170)</span></label>
                 <textarea id="seo_desc" name="seo[description]" rows="2" class="form-control" maxlength="170">{{ old('seo.description', $page->seo['description'] ?? '') }}</textarea>
             </div>

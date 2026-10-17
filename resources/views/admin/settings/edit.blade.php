@@ -10,7 +10,7 @@
                 @csrf
                 @foreach ($branding['slots'] as $slot => $label)
                     @php($current = $branding['current'][$slot] ?? null)
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                         <label for="b-{{ $slot }}" class="form-label fw-semibold">{{ $label }}</label>
                         @if ($current)
                             <div class="branding-preview {{ $slot === 'logo' ? 'branding-preview--dark' : '' }} mb-2"><img src="{{ $current['path'] }}" alt="Current {{ strtolower($label) }}"></div>
@@ -25,7 +25,7 @@
                     </div>
                 @endforeach
                 <div class="col-12">
-                    <p class="form-text mb-2">PNG with a transparent background gives the best result (JPEG and WebP also work; SVG is not accepted). The header and footer are dark blue, so supply a <strong>white or light</strong> version of the logo there. Maximum 2 MB; the favicon must be a square PNG.</p>
+                    <p class="form-text mb-2">PNG with a transparent background gives the best result (JPEG and WebP also work; SVG is not accepted). The header and footer are dark blue, so supply a <strong>white or light</strong> version of the logo there. Maximum 2 MB; the favicon must be a square PNG. The share image (JPEG or PNG, up to 3 MB) is the picture Facebook, LinkedIn, WhatsApp and X show when someone shares a page; individual pages and news stories can use their own.</p>
                     <button class="btn btn-primary">Save branding</button>
                 </div>
             </form>

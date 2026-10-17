@@ -68,6 +68,8 @@ class SettingsSchema
             'seo' => [
                 'label' => 'SEO & robots',
                 'fields' => [
+                    'google_site_verification' => ['label' => 'Google Search Console verification code', 'type' => 'text', 'rules' => ['nullable', 'string', 'max:100', 'regex:/^[A-Za-z0-9_-]+$/'], 'help' => 'The content value of Google\'s verification meta tag.'],
+                    'bing_site_verification' => ['label' => 'Bing Webmaster verification code', 'type' => 'text', 'rules' => ['nullable', 'string', 'max:100', 'regex:/^[A-Za-z0-9_-]+$/']],
                     'default_description' => ['label' => 'Default meta description', 'type' => 'textarea', 'rules' => ['nullable', 'string', 'max:170'], 'help' => 'Used on pages without their own description (max 170 characters).'],
                     'robots_txt' => ['label' => 'robots.txt (leave blank for the default)', 'type' => 'textarea', 'rules' => ['nullable', 'string', 'max:2000'], 'help' => 'The sitemap line is appended automatically.'],
                 ],

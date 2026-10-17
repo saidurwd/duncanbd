@@ -2,7 +2,7 @@
 
 @section('title', 'Search · '.$site['name'])
 
-@push('head')<meta name="robots" content="noindex, follow">@endpush
+@section('robots', 'noindex, follow')
 
 @section('content')
     <section class="block">

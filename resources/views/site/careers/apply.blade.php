@@ -2,7 +2,7 @@
 
 @section('title', 'Apply: '.$vacancy->title.' · '.$site['name'])
 
-@push('head')<meta name="robots" content="noindex, nofollow">@endpush
+@section('robots', 'noindex, nofollow')
 
 @section('content')
     <section class="block">

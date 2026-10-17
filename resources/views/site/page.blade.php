@@ -8,9 +8,21 @@
     @section('og_image', $ogImage)
 @endif
 
-@push('head')
-    @if ($preview)<meta name="robots" content="noindex, nofollow">@endif
-@endpush
+@if ($preview)
+    @section('robots', 'noindex, nofollow')
+@endif
+
+@if ($page->path === 'home')
+    @push('jsonld')
+        <script type="application/ld+json">{!! json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'WebSite',
+            'name' => $site['name'],
+            'url' => url('/'),
+            'potentialAction' => ['@type' => 'SearchAction', 'target' => url('/search').'?q={search_term_string}', 'query-input' => 'required name=search_term_string'],
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP) !!}</script>
+    @endpush
+@endif
 
 @unless (collect($blocks)->contains(fn ($b) => $b['type'] === 'hero'))
     @section('crumbs_in_hero', '1')

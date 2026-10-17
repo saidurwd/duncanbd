@@ -19,6 +19,7 @@ class UpdateBranding
         'logo' => 'Logo (for the dark blue header and footer)',
         'logo_dark' => 'Logo for light backgrounds (optional: sign-in page)',
         'favicon' => 'Favicon (browser tab icon)',
+        'share_image' => 'Default share image: shown when a page is shared on social media (1200 × 630 px)',
     ];
 
     public function __construct(private SettingsRepository $settings) {}

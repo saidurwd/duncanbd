@@ -26,7 +26,7 @@ class SettingsController extends Controller
     public function branding(UpdateBrandingRequest $request, UpdateBranding $update): RedirectResponse
     {
         $update(
-            ['logo' => $request->file('logo'), 'logo_dark' => $request->file('logo_dark'), 'favicon' => $request->file('favicon')],
+            ['logo' => $request->file('logo'), 'logo_dark' => $request->file('logo_dark'), 'favicon' => $request->file('favicon'), 'share_image' => $request->file('share_image')],
             (array) $request->input('remove', []),
             $request->user()->id,
         );

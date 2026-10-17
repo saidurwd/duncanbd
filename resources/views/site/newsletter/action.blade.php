@@ -2,7 +2,7 @@
 
 @section('title', ($action === 'confirm' ? 'Confirm subscription' : 'Unsubscribe').' · '.$site['name'])
 
-@push('head')<meta name="robots" content="noindex, nofollow">@endpush
+@section('robots', 'noindex, nofollow')
 
 @section('content')
     <section class="block">
