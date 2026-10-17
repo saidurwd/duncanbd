@@ -109,3 +109,9 @@ article.block img { border-radius: 2px; margin-bottom: var(--space-3); }
     &__seal { display: grid; place-items: center; width: 3rem; height: 3rem; flex: none; border-radius: 50%; background: var(--color-accent); color: #fff; font-size: 1.4rem; }
     &__year { color: var(--color-text-muted); font-weight: 400; font-size: 0.9rem; }
 }
+
+// The supplied logo is dark artwork on white, so it sits on a white plate on the dark blue header and footer.
+.site-header__logo, .site-footer__logo { background: #fff; padding: 0.3rem 0.7rem; border-radius: 6px; box-sizing: content-box; }
+.site-header__logo { height: 3rem; max-width: 22rem; padding: 0.2rem 0.6rem; }
+.site-footer__logo { height: 3.25rem; max-width: 22rem; }
+@media (max-width: 575px) { .site-header__logo { height: 2.25rem; max-width: 13rem; } }
