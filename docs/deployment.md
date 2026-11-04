@@ -8,7 +8,7 @@ Everything here is exercised by the drills in [qa-report.md](qa-report.md) excep
 | Component | Notes |
 |---|---|
 | PHP 8.4-FPM, OPcache on (`opcache.validate_timestamps=0` in production, reload FPM on deploy) | Extensions: `mbstring pdo_mysql redis gd (or imagick) exif fileinfo bcmath xml curl zip` (`intl` not required) |
-| MySQL 8.4 | `utf8mb4_0900_ai_ci`; a dedicated user with rights on one database; daily backups |
+| MySQL 8.x or MariaDB 10.6+ | `utf8mb4_unicode_ci` (set `DB_COLLATION`); a dedicated user with rights on one database; daily backups |
 | Redis 7 | cache, sessions, queue (`REDIS_CLIENT=phpredis`) |
 | nginx | use `deploy/nginx.conf` (headers, caching, rate limits, dotfile blocking) |
 | Supervisor | `deploy/supervisor-queue.conf` (2 queue workers) |
