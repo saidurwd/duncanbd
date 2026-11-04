@@ -7,7 +7,7 @@ Everything here is exercised by the drills in [qa-report.md](qa-report.md) excep
 
 | Component | Notes |
 |---|---|
-| PHP 8.4-FPM, OPcache on (`opcache.validate_timestamps=0` in production, reload FPM on deploy) | Extensions: `mbstring pdo_mysql redis gd (or imagick) exif fileinfo bcmath xml curl zip` (`intl` not required) |
+| PHP 8.3 or 8.4 FPM (8.3 is what the lock file is built for), OPcache on (`opcache.validate_timestamps=0` in production, reload FPM on deploy) | Extensions: `mbstring pdo_mysql redis gd (or imagick) exif fileinfo bcmath xml curl zip` (`intl` not required) |
 | MySQL 8.4 | `utf8mb4_0900_ai_ci`; a dedicated user with rights on one database; daily backups |
 | Redis 7 | cache, sessions, queue (`REDIS_CLIENT=phpredis`) |
 | nginx | use `deploy/nginx.conf` (headers, caching, rate limits, dotfile blocking) |
@@ -60,3 +60,8 @@ Never run `QaDemoSeeder` in production (it refuses to).
 * Send a test enquiry, a test application and a newsletter sign-up; confirm all four emails arrive (SPF/DKIM/DMARC pass).
 * `php artisan backup:run`, then `php artisan backup:monitor`; confirm the archive appears on the off-site disk.
 * ⚠ Run `tools/qa/a11y.mjs`, `lighthouse.mjs` and the ZAP baseline against the real URL (`QA_BASE=https://…`).
+
+## PHP version and dependency line
+
+The project is locked to **Laravel 12 on PHP 8.3** (`composer.json` has `"php": "^8.3"` and `config.platform.php = 8.3.36`, so `composer update` only ever picks versions that run on 8.3). It also runs on 8.4. Reasons: some Spatie packages (response cache 8, sitemap 8, activity log 5) and Symfony 8 require PHP 8.4, and Laravel 13 needs those. When the server moves to 8.4, upgrade to Laravel 13 as a separate, tested change.
+Adjust the FPM socket in `deploy/nginx.conf` and `RELOAD_CMD` in `deploy/deploy.sh` if the server uses a different PHP minor version.

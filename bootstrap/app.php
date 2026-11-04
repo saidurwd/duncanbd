@@ -8,7 +8,7 @@ use App\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Csp\AddCspHeaders;
@@ -38,7 +38,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append([SecurityHeaders::class, AddCspHeaders::class]);
 
         // Forms carry a hidden _token; the JS-readable XSRF-TOKEN cookie is not needed and only widens the surface.
-        $middleware->web(replace: [PreventRequestForgery::class => VerifyCsrfToken::class]);
+        $middleware->web(replace: [ValidateCsrfToken::class => VerifyCsrfToken::class]);
 
         // Public pages: no session or cookies, so full responses are safe to cache for all guests.
         // Security headers are global (outside the cache layer) so they are never served stale.

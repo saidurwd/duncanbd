@@ -1,6 +1,6 @@
 # Duncan Brothers (Bangladesh) Ltd — Corporate Website
 
-Laravel 13 · Blade · MySQL 8.4 · PHP 8.4. See [docs/architecture-and-plan.md](docs/architecture-and-plan.md).
+Laravel 12 · Blade · MySQL 8.4 · PHP 8.3+ (runs on 8.3 and 8.4). See [docs/architecture-and-plan.md](docs/architecture-and-plan.md).
 
 ## Local setup
 
