@@ -60,3 +60,7 @@ Never run `QaDemoSeeder` in production (it refuses to).
 * Send a test enquiry, a test application and a newsletter sign-up; confirm all four emails arrive (SPF/DKIM/DMARC pass).
 * `php artisan backup:run`, then `php artisan backup:monitor`; confirm the archive appears on the off-site disk.
 * ⚠ Run `tools/qa/a11y.mjs`, `lighthouse.mjs` and the ZAP baseline against the real URL (`QA_BASE=https://…`).
+
+## Hosting without SSH or symlinks (shared hosting)
+
+Set `PUBLIC_DISK_IN_PUBLIC=true` in `.env`. Uploads (images, WebP conversions) are then written straight to `public/storage/` and served as static files, so `php artisan storage:link` is not needed. Upload the existing files from `storage/app/public/` into `public/storage/` once (File Manager or FTP). Clear caches by deleting the files in `bootstrap/cache/` (keep `.gitignore`) and `storage/framework/cache/data/`.
