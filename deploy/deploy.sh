@@ -13,7 +13,7 @@ set -euo pipefail
 : "${DEPLOY_PATH:?set DEPLOY_PATH}"
 KEEP="${KEEP:-5}"
 PHP="${PHP_BIN:-php}"
-RELOAD_CMD="${RELOAD_CMD:-sudo systemctl reload php8.3-fpm}"   # set RELOAD_CMD=true to skip (e.g. local drills)
+RELOAD_CMD="${RELOAD_CMD:-sudo systemctl reload php8.4-fpm}"   # set RELOAD_CMD=true to skip (e.g. local drills)
 SKIP_BUILD="${SKIP_BUILD:-0}"                                    # 1 = assets already built (artifact upload)
 
 releases="$DEPLOY_PATH/releases"; shared="$DEPLOY_PATH/shared"; current="$DEPLOY_PATH/current"
