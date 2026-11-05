@@ -89,7 +89,7 @@ main > .block:nth-of-type(even):not(.block-hero) { background: var(--color-surfa
 // Tighter rhythm directly under the page title, and a stronger first paragraph.
 .page-hero { padding-block: var(--space-4) var(--space-3); }
 .page-hero + .block { padding-top: var(--space-4); }
-.block-text .prose > p:first-child { font-size: 1.2em; }
+/* Brand pack: one body size (Roboto). The old 1.2em lead paragraph is retired. */
 .card-item { background: var(--color-surface); }
 .card-item .meta + h3 { margin-top: 0.25rem; }
 .steps { counter-reset: step; }
