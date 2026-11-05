@@ -1,0 +1,59 @@
+// Brand pack, Nov 2026: "Heritage & Contemporary — heritage-rich, warm, premium".
+// Forest #192b1c, green #0c803f, cream #faf4e6, gold #cc9f53. Libre Baskerville headings, Roboto body.
+
+body { -webkit-font-smoothing: antialiased; }
+h1, h2 { font-weight: 700; letter-spacing: -0.005em; }
+h3, h4, h5 { font-weight: 700; }
+
+.eyebrow, .block-hero__eyebrow {
+    font-family: var(--font-body); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-accent-warm);
+}
+
+// ---- Header: cream, full-colour logo, spaced uppercase navigation ------------------------------------------
+.utility-bar { background: var(--color-primary); }
+.site-header {
+    background: var(--color-surface-alt); color: var(--color-primary); border-bottom: 1px solid var(--color-border);
+    &.is-scrolled { box-shadow: 0 2px 14px rgba(25, 43, 28, 0.15); }
+    &__brand, &__brand:hover { color: var(--color-primary); }
+    &__mark { border-radius: 0; width: 3rem; height: 3rem; }
+    &__wordmark {
+        display: flex; flex-direction: column; font-family: var(--font-display); font-weight: 700; font-size: 1.2rem; line-height: 1.1; color: var(--color-primary);
+        > span:first-child { display: block; }
+        small { font-family: var(--font-body); font-size: 0.62rem; letter-spacing: 0.32em; text-transform: uppercase; margin-top: 0.3rem; }
+        &--light { color: var(--color-surface-alt); font-size: 1.35rem; }
+    }
+}
+.primary-nav a {
+    color: var(--color-primary); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; padding: 0.6rem 0.9rem; border: 2px solid transparent;
+    &:hover, &:focus-visible { color: var(--color-primary); border-color: var(--color-accent-warm); }
+    &[aria-current='true'] { color: var(--color-primary); border-color: var(--color-accent-warm); }
+}
+.primary-nav__sub a { text-transform: none; letter-spacing: 0.02em; font-size: 0.95rem; font-weight: 500; }
+.explore-toggle { color: var(--color-primary); border-color: var(--color-primary); letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.8rem; &:hover { background: var(--color-primary); color: var(--color-surface-alt); } }
+.site-header__logo { background: transparent; padding: 0; height: 3rem; max-width: 22rem; }
+// The uploaded logo is transparent artwork with dark text: on the forest footer it sits on a cream plate.
+.site-footer__logo { background: var(--color-surface-alt); padding: 0.6rem 1rem; border-radius: 4px; height: 3.5rem; max-width: 22rem; box-sizing: content-box; }
+
+// ---- Hero: forest overlay, mark watermark, centred serif headline ----------------------------------------------
+.block-hero {
+    text-align: center;
+    &::after { background: linear-gradient(to top, rgba(17, 31, 20, 0.78), rgba(17, 31, 20, 0.55)); }
+    &__text { align-items: center; justify-content: center; text-align: center; }
+    h1 { max-width: 20ch; font-size: 2.5rem; @media (min-width: 768px) { font-size: 4.25rem; } }
+    p { margin-inline: auto; }
+    &__eyebrow { margin: 0 0 var(--space-2); color: var(--color-surface-alt); opacity: 0.85; }
+    &__watermark { position: absolute; z-index: 1; left: 50%; top: 50%; width: min(34rem, 80%); height: auto; transform: translate(-50%, -50%); opacity: 0.16; pointer-events: none; }
+}
+
+// ---- Interior page hero & sections -----------------------------------------------------------------------------------
+.page-hero { background: var(--color-primary); border-bottom: 4px solid var(--color-accent-warm); }
+.block-stats { background: var(--color-primary) !important; .stat strong { color: var(--color-accent-warm); font-family: var(--font-display); } }
+.block-cta { background: var(--color-accent) !important; .button { color: var(--color-primary); } }
+.button { text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.85rem; font-weight: 700; padding: 0.85rem 1.6rem; }
+.button--gold, .button:not(.button--ghost):hover { background: var(--color-accent); }
+
+// ---- Footer -------------------------------------------------------------------------------------------------------------------
+.site-footer { background: var(--color-primary); &__brand img { border-radius: 0; } &__mark { width: 3.5rem; height: 3.5rem; } }
+
+// In-page anchors from the menu (e.g. /about#values-governance) must clear the sticky header.
+h2[id] { scroll-margin-top: 6rem; }

@@ -7,7 +7,8 @@
                     @if ($site['logo'])
                         <img src="{{ $site['logo']['path'] }}" alt="{{ $site['name'] }}" width="{{ $site['logo']['width'] ?: 160 }}" height="{{ $site['logo']['height'] ?: 48 }}" class="site-footer__logo" loading="lazy">
                     @else
-                        <img src="{{ asset('favicon.svg') }}" alt="" width="44" height="44"><span>{{ $site['name'] }}</span>
+                        <img src="{{ asset('brand/mark-light.png') }}" alt="" width="56" height="56" class="site-footer__mark">
+                        <span class="site-header__wordmark site-header__wordmark--light"><span>Duncan Brothers</span><small>Bangladesh</small><span class="visually-hidden">{{ $site['name'] }}</span></span>
                     @endif
                 </a>
                 @if ($site['tagline'])<p>{{ $site['tagline'] }}</p>@endif

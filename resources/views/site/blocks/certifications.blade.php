@@ -1,6 +1,6 @@
 <section class="block block-certifications">
     <div class="container">
-        @if ($data['heading'])<h2>{{ $data['heading'] }}</h2>@endif
+        @if ($data['heading'])<h2 id="{{ \Illuminate\Support\Str::slug($data['heading']) }}">{{ $data['heading'] }}</h2>@endif
         @if ($data['intro'])<p class="lead">{{ $data['intro'] }}</p>@endif
         <ul class="cert-grid">
             @foreach ($data['items'] ?? [] as $cert)

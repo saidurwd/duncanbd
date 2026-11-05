@@ -46,6 +46,7 @@ enum BlockType: string
 
         return match ($this) {
             self::Hero => [
+                'eyebrow' => ['label' => 'Eyebrow (small line above the heading)', 'type' => 'text', 'max' => 80],
                 'heading' => ['label' => 'Heading (H1)', 'type' => 'text', 'required' => true, 'max' => 160],
                 'intro' => ['label' => 'Intro statement', 'type' => 'textarea', 'max' => 400],
                 'slides' => ['label' => 'Slides (max 5)', 'type' => 'repeater', 'limit' => 5, 'fields' => [

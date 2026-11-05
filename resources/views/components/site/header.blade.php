@@ -5,8 +5,8 @@
             @if ($site['logo'])
                 <img src="{{ $site['logo']['path'] }}" alt="{{ $site['name'] }}" width="{{ $site['logo']['width'] ?: 160 }}" height="{{ $site['logo']['height'] ?: 48 }}" class="site-header__logo">
             @else
-                <img src="{{ asset('favicon.svg') }}" alt="" width="40" height="40" class="site-header__mark">
-                <span class="site-header__name">{{ $site['name'] }}</span>
+                <img src="{{ asset('brand/mark.png') }}" alt="" width="48" height="48" class="site-header__mark">
+                <span class="site-header__wordmark site-header__name"><span>Duncan Brothers</span><small>Bangladesh</small><span class="visually-hidden">{{ $site['name'] }}</span></span>
             @endif
         </a>
 

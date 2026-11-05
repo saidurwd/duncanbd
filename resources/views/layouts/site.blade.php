@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', $site['name'])</title>
     <meta name="description" content="@hasSection('description')@yield('description')@else{{ $site['default_description'] }}@endif">
-    <meta name="theme-color" content="#2c3f5c">
-    @if ($site['favicon'])<link rel="icon" href="{{ $site['favicon']['path'] }}" type="image/png">@else<link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">@endif
+    <meta name="theme-color" content="#192b1c">
+    @if ($site['favicon'])<link rel="icon" href="{{ $site['favicon']['path'] }}" type="image/png">@else<link rel="icon" href="{{ asset('favicon.png') }}" type="image/png">@endif
     <link rel="canonical" href="{{ url()->current() }}">
     @php
         $desc = View::hasSection('description') ? trim(View::getSection('description')) : $site['default_description'];

@@ -9,7 +9,9 @@
             </div>
         @endforeach
     </div>
+    <img src="{{ asset('brand/mark-light.png') }}" alt="" class="block-hero__watermark" aria-hidden="true" width="600" height="600">
     <div class="container block-hero__text">
+        @if (! empty($data['eyebrow']))<p class="block-hero__eyebrow">{{ $data['eyebrow'] }}</p>@endif
         <h1>{{ $data['heading'] }}</h1>
         @if ($data['intro'])<p>{{ $data['intro'] }}</p>@endif
     </div>

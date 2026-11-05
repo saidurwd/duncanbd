@@ -1,6 +1,6 @@
 <section class="block block-cards">
     <div class="container">
-        @if ($data['heading'])<h2>{{ $data['heading'] }}</h2>@endif
+        @if ($data['heading'])<h2 id="{{ \Illuminate\Support\Str::slug($data['heading']) }}">{{ $data['heading'] }}</h2>@endif
         <div class="cards">
             @foreach ($data['items'] ?? [] as $card)
                 @php($image = $card['media_id'] ? $media->get($card['media_id']) : null)
