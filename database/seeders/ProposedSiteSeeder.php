@@ -65,7 +65,7 @@ class ProposedSiteSeeder extends Seeder
         Cache::flush();
         ResponseCache::clear();
 
-        $this->command?->info(count($this->pages)." pages published, {$retired} legacy pages archived (with redirects); header menu is now About, Operations, ESG, News, Contact.");
+        $this->command?->info(count($this->pages)." pages published, {$retired} legacy pages archived (with redirects); header menu is now Home, About, Operations, ESG, News, Contact.");
     }
 
     // ---- pages --------------------------------------------------------------------------------------------
@@ -399,6 +399,7 @@ class ProposedSiteSeeder extends Seeder
 
         // Top level and sub-items follow the document's site map. Section items are anchors on their parent page.
         $tree = [
+            ['Home', '/', []],
             ['About', $id('about'), [
                 ['Our Story', $id('about/our-story')],
                 ['Leadership', $id('about/leadership')],

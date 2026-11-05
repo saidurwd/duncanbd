@@ -14,7 +14,7 @@
             <ul>
                 @foreach (array_slice($site['menu_explore'], 0, 7) as $item)
                     <li class="@if ($item['children']) has-children @endif">
-                        <a href="{{ $item['url'] ?? '#' }}" @if ($item['target'] === '_blank') target="_blank" rel="noopener" @endif @if (request()->is(ltrim((string) $item['url'], '/').'*') && $item['url'] && $item['url'] !== '/') aria-current="true" @endif>{{ $item['label'] }}@if ($item['children'])<span class="caret" aria-hidden="true"></span>@endif</a>
+                        <a href="{{ $item['url'] ?? '#' }}" @if ($item['target'] === '_blank') target="_blank" rel="noopener" @endif @if (($item['url'] === '/' && request()->is('/')) || (request()->is(ltrim((string) $item['url'], '/').'*') && $item['url'] && $item['url'] !== '/')) aria-current="true" @endif>{{ $item['label'] }}@if ($item['children'])<span class="caret" aria-hidden="true"></span>@endif</a>
                         @if ($item['children'])
                             <ul class="primary-nav__sub">
                                 @foreach ($item['children'] as $child)
