@@ -24,9 +24,12 @@
     @endpush
 @endif
 
-@unless (collect($blocks)->contains(fn ($b) => $b['type'] === 'hero'))
+@if (collect($blocks)->contains(fn ($b) => $b['type'] === 'hero'))
+    {{-- A page that opens with a hero gets the transparent header floating over it. --}}
+    @section('body_class', 'has-hero')
+@else
     @section('crumbs_in_hero', '1')
-@endunless
+@endif
 
 @section('content')
     @if ($preview)

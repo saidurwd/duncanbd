@@ -46,7 +46,7 @@
     @stack('jsonld')
     @vite(['resources/scss/site/app.scss', 'resources/js/site/app.js'])
 </head>
-<body id="top" @if ($site['analytics_id']) data-analytics-id="{{ $site['analytics_id'] }}" @endif>
+<body id="top" class="@yield('body_class')" @if ($site['analytics_id']) data-analytics-id="{{ $site['analytics_id'] }}" @endif>
 <a href="#main" class="skip-link">Skip to content</a>
 <x-site.utility-bar :site="$site" />
 <x-site.header :site="$site" />
