@@ -14,7 +14,7 @@
         @if (is_array($loginLogo) && isset($loginLogo['path']))
             <img src="{{ $loginLogo['path'] }}" alt="{{ config('app.name') }}" class="login-logo__img">
         @else
-            <span class="brand-mark" aria-hidden="true">DB</span><span class="d-block h3 mt-2 mb-0">{{ config('app.name') }}</span>
+            <span class="brand-mark brand-mark--lg" aria-hidden="true"><img src="{{ asset('brand/mark.png') }}" alt="" width="72" height="72"></span><span class="d-block h3 mt-2 mb-0">{{ config('app.name') }}</span>
         @endif
         <small class="text-muted d-block">Website administration</small>
     </div>

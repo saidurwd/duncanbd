@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ApplicationController;
+use App\Http\Controllers\Admin\AuditController;
 use App\Http\Controllers\Admin\ContentResourceController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DocumentCategoryController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Admin\RedirectController;
 use App\Http\Controllers\Admin\SecurityController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Admin\SystemController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VacancyController;
 use Illuminate\Support\Facades\Route;
@@ -23,6 +25,20 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'admin.access'])->group(function () {
     Route::get('/', DashboardController::class)->name('dashboard');
     Route::get('/security', SecurityController::class)->name('security');
+
+    // Security & audit: read-only views of the audit trail (audit.view), and server health/about (system.manage).
+    Route::prefix('security-audit')->name('audit.')->middleware('permission:audit.view')->group(function () {
+        Route::get('/audit-log', [AuditController::class, 'audit'])->name('audit');
+        Route::get('/audit-log/export', [AuditController::class, 'export'])->name('export');
+        Route::get('/audit-log/{activity}', [AuditController::class, 'show'])->whereNumber('activity')->name('show');
+        Route::get('/activity-log', [AuditController::class, 'activity'])->name('activity');
+        Route::get('/login-history', [AuditController::class, 'logins'])->name('logins');
+        Route::get('/security-events', [AuditController::class, 'events'])->name('events');
+    });
+    Route::prefix('system')->name('system.')->middleware('permission:system.manage')->group(function () {
+        Route::get('/health', [SystemController::class, 'health'])->name('health');
+        Route::get('/about', [SystemController::class, 'about'])->name('about');
+    });
 
     Route::middleware('permission:settings.manage')->group(function () {
         Route::get('/settings', [SettingsController::class, 'edit'])->name('settings.edit');

@@ -1,5 +1,9 @@
 @use 'admin-lte/src/scss/adminlte';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+@import '@fontsource/libre-baskerville/700.css';
+@import '@fontsource/roboto/400.css';
+@import '@fontsource/roboto/500.css';
+@import '@fontsource/roboto/700.css';
 
 .pre-wrap { white-space: pre-wrap; }
 
@@ -18,32 +22,63 @@
 
 .card form.row.g-3 { max-width: 40rem; }
 
-// ---- Brand: keep AdminLTE's structure, use the corporate navy as the primary colour -------------
+// ---- Brand (pack Nov 2026), shared with the public site: forest #192b1c, green #0c803f, cream #faf4e6, gold #cc9f53 ----
 :root, [data-bs-theme='light'] {
-    --bs-primary: #2c3f5c;
-    --bs-primary-rgb: 44, 63, 92;
-    --bs-link-color: #2c3f5c;
-    --bs-link-color-rgb: 44, 63, 92;
-    --bs-link-hover-color: #1e2c41;
-    --bs-link-hover-color-rgb: 30, 44, 65;
-    --bs-primary-text-emphasis: #1e2c41;
-    --bs-primary-bg-subtle: #dde3ec;
-    --bs-primary-border-subtle: #b3c0d3;
+    --bs-font-sans-serif: 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --bs-body-font-family: var(--bs-font-sans-serif);
+    --bs-body-color: #1c241d;
+    --bs-secondary-color: rgba(28, 36, 29, 0.7);
+    --bs-primary: #0c803f;
+    --bs-primary-rgb: 12, 128, 63;
+    --bs-link-color: #0c803f;
+    --bs-link-color-rgb: 12, 128, 63;
+    --bs-link-hover-color: #09652f;
+    --bs-link-hover-color-rgb: 9, 101, 47;
+    --bs-primary-text-emphasis: #07502a;
+    --bs-primary-bg-subtle: #e0f0e7;
+    --bs-primary-border-subtle: #a6d4b9;
+    --bs-body-bg: #fff;
+    --bs-body-bg-rgb: 255, 255, 255;
+    --bs-secondary-bg: #faf4e6;
+    --bs-secondary-bg-rgb: 250, 244, 230;
+    --bs-tertiary-bg: #fdf9ef;
+    --bs-border-color: #e3dcc8;
+    --bs-focus-ring-color: rgba(12, 128, 63, 0.25);
+    // Status colours remapped onto the brand palette (danger stays red: it must read as an error).
+    --bs-success: #0c803f; --bs-success-rgb: 12, 128, 63;
+    --bs-info: #1f4a33; --bs-info-rgb: 31, 74, 51;
+    --bs-warning: #cc9f53; --bs-warning-rgb: 204, 159, 83;
+    --bs-secondary: #5a6358; --bs-secondary-rgb: 90, 99, 88;
 }
-.btn-primary { --bs-btn-bg: #2c3f5c; --bs-btn-border-color: #2c3f5c; --bs-btn-hover-bg: #1e2c41; --bs-btn-hover-border-color: #1e2c41; --bs-btn-active-bg: #1e2c41; --bs-btn-active-border-color: #1e2c41; --bs-btn-disabled-bg: #2c3f5c; --bs-btn-disabled-border-color: #2c3f5c; }
-.btn-outline-primary { --bs-btn-color: #2c3f5c; --bs-btn-border-color: #2c3f5c; --bs-btn-hover-bg: #2c3f5c; --bs-btn-hover-border-color: #2c3f5c; --bs-btn-active-bg: #2c3f5c; --bs-btn-active-border-color: #2c3f5c; }
-.text-bg-primary { background-color: #2c3f5c !important; }
-.card-primary.card-outline, .login-page .card-outline { border-top-color: #2c3f5c; }
-.form-check-input:checked { background-color: #2c3f5c; border-color: #2c3f5c; }
-.nav-tabs .nav-link.active { color: #2c3f5c; }
+.text-bg-info { color: #fff !important; }
+.text-bg-warning { color: #192b1c !important; }
+.small-box h3, .small-box .inner h3 { font-family: var(--bs-font-sans-serif); color: inherit; font-weight: 700; }
+.btn-success { --bs-btn-bg: #0c803f; --bs-btn-border-color: #0c803f; --bs-btn-hover-bg: #09652f; --bs-btn-hover-border-color: #09652f; }
+.btn-warning { --bs-btn-bg: #cc9f53; --bs-btn-border-color: #cc9f53; --bs-btn-hover-bg: #b88b42; --bs-btn-hover-border-color: #b88b42; --bs-btn-color: #192b1c; }
+.btn-info { --bs-btn-bg: #1f4a33; --bs-btn-border-color: #1f4a33; --bs-btn-color: #fff; --bs-btn-hover-bg: #173a28; --bs-btn-hover-border-color: #173a28; --bs-btn-hover-color: #fff; }
+h1, h2, h3, .h1, .h2, .h3, .app-content-header h3 { font-family: 'Libre Baskerville', Georgia, serif; font-weight: 700; color: #192b1c; }
+.card-title, .h4, .h5, h4, h5 { font-family: var(--bs-font-sans-serif); }
+.btn-primary { --bs-btn-bg: #0c803f; --bs-btn-border-color: #0c803f; --bs-btn-hover-bg: #09652f; --bs-btn-hover-border-color: #09652f; --bs-btn-active-bg: #09652f; --bs-btn-active-border-color: #09652f; --bs-btn-disabled-bg: #0c803f; --bs-btn-disabled-border-color: #0c803f; }
+.btn-outline-primary { --bs-btn-color: #0c803f; --bs-btn-border-color: #0c803f; --bs-btn-hover-bg: #0c803f; --bs-btn-hover-border-color: #0c803f; --bs-btn-active-bg: #0c803f; --bs-btn-active-border-color: #0c803f; }
+.text-bg-primary { background-color: #0c803f !important; }
+.card-primary.card-outline, .login-page .card-outline { border-top-color: #cc9f53; }
+.form-check-input:checked { background-color: #0c803f; border-color: #0c803f; }
+.nav-tabs .nav-link.active { color: #0c803f; }
+.app-header { border-bottom: 1px solid #e3dcc8; background: #faf4e6 !important; }
+.app-main, .login-page { background: #faf4e6; }
+.login-page.bg-body-secondary { background-color: #faf4e6 !important; }
+.app-sidebar { background-color: #192b1c !important; }
+.app-sidebar .sidebar-brand { border-bottom-color: rgba(250, 244, 230, 0.15); }
+.app-sidebar .nav-link:hover { background-color: rgba(250, 244, 230, 0.08); }
 
 .sidebar-brand .brand-link { display: flex; align-items: center; gap: 0.75rem; }
-.brand-mark { display: inline-grid; place-items: center; width: 2.1rem; height: 2.1rem; border-radius: 0.5rem; background: #5e8c4a; color: #fff; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; flex: none; }
-.brand-text { line-height: 1.1; small { font-size: 0.7rem; opacity: 0.7; font-weight: 400; } }
+.brand-mark img { width: 100%; height: 100%; object-fit: contain; }
+.brand-mark { display: inline-grid; place-items: center; width: 2.4rem; height: 2.4rem; background: transparent; color: #fff; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.02em; flex: none; }
+.brand-text { line-height: 1.1; font-family: 'Libre Baskerville', Georgia, serif; font-weight: 700; small { font-size: 0.7rem; opacity: 0.7; font-weight: 400; } }
 .app-sidebar .nav-header { letter-spacing: 0.08em; font-size: 0.7rem; opacity: 0.55; }
-.app-sidebar .sidebar-menu > .nav-item > .nav-link.active { background-color: #2c3f5c; color: #fff; box-shadow: inset 3px 0 0 #5e8c4a; }
+.app-sidebar .sidebar-menu > .nav-item > .nav-link.active { background-color: #0c803f; color: #fff; box-shadow: inset 3px 0 0 #cc9f53; }
 
-.avatar-initials { display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: #2c3f5c; color: #fff; font-size: 0.75rem; font-weight: 600; }
+.avatar-initials { display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: #192b1c; color: #faf4e6; font-size: 0.75rem; font-weight: 600; }
 .avatar-lg { width: 5rem; height: 5rem; font-size: 1.75rem; background: rgba(255, 255, 255, 0.2); border: 3px solid rgba(255, 255, 255, 0.4); }
 .user-menu .user-header { display: flex; flex-direction: column; align-items: center; padding: 1.25rem 1rem; height: auto; p { margin: 0.75rem 0 0; text-align: center; small { display: block; opacity: 0.8; font-size: 0.8rem; } } }
 .user-menu .user-footer { display: flex; justify-content: space-between; padding: 0.75rem 1rem; }
@@ -51,12 +86,16 @@
 
 .small-box .small-box-icon { font-size: 4.5rem; width: auto; height: auto; top: 0.6rem; right: 1rem; opacity: 0.25; position: absolute; line-height: 1; }
 .small-box .small-box-footer { display: block; padding: 0.4rem 0; text-align: center; background: rgba(0, 0, 0, 0.12); color: #fff; text-decoration: none; }
-.small-box.text-bg-warning .small-box-footer { color: #1f2933; }
+.small-box.text-bg-warning .small-box-footer { color: #1c241d; }
 .card-title { font-size: 1.05rem; font-weight: 600; margin: 0; }
 .app-footer { padding: 0.9rem 1.25rem; border-top: 1px solid var(--bs-border-color); background: var(--bs-body-bg); }
 .app-content-header { padding: 1rem 0.5rem 0.25rem; }
 .breadcrumb-item + .breadcrumb-item::before { content: '/'; }
 
-.branding-preview { display: inline-block; max-width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--bs-border-color); border-radius: 0.375rem; background: #fff; img { max-height: 4rem; max-width: 100%; display: block; } &--dark { background: #2c3f5c; } }
+.branding-preview { display: inline-block; max-width: 100%; padding: 0.75rem 1rem; border: 1px solid var(--bs-border-color); border-radius: 0.375rem; background: #fff; img { max-height: 4rem; max-width: 100%; display: block; } &--dark { background: #192b1c; } }
 
 .login-logo__img { max-height: 4.5rem; max-width: 100%; margin-bottom: 0.25rem; }
+
+.brand-mark--lg { width: 4.5rem; height: 4.5rem; }
+.login-logo { color: #192b1c; }
+.small-box.text-bg-warning .small-box-footer { color: #192b1c !important; }

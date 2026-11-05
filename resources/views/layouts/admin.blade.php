@@ -44,7 +44,7 @@
     <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
         <div class="sidebar-brand">
             <a href="{{ route('admin.dashboard') }}" class="brand-link">
-                <span class="brand-mark" aria-hidden="true">DB</span>
+                <span class="brand-mark" aria-hidden="true"><img src="{{ asset('brand/mark-light.png') }}" alt="" width="40" height="40"></span>
                 <span class="brand-text fw-light">Duncan Brothers <small class="d-block">Website admin</small></span>
             </a>
         </div>

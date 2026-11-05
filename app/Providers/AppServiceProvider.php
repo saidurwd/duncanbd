@@ -12,6 +12,7 @@ use App\Domain\Settings\SettingsRepository;
 use App\Listeners\HandlePagePathChanged;
 use App\Listeners\InvalidatePublicCaches;
 use App\Listeners\LogAuthActivity;
+use App\Listeners\LogSecurityEvents;
 use App\Support\MailConfigurator;
 use App\View\Composers\SiteComposer;
 use Carbon\CarbonImmutable;
@@ -59,6 +60,12 @@ class AppServiceProvider extends ServiceProvider
         Date::use(CarbonImmutable::class);
 
         Event::listen([Login::class, Logout::class, Failed::class], LogAuthActivity::class);
+        Event::listen([
+            \Illuminate\Auth\Events\Lockout::class, \Illuminate\Auth\Events\PasswordReset::class,
+            \Laravel\Fortify\Events\TwoFactorAuthenticationEnabled::class, \Laravel\Fortify\Events\TwoFactorAuthenticationConfirmed::class,
+            \Laravel\Fortify\Events\TwoFactorAuthenticationDisabled::class, \Laravel\Fortify\Events\TwoFactorAuthenticationFailed::class,
+            \Laravel\Fortify\Events\RecoveryCodesGenerated::class,
+        ], LogSecurityEvents::class);
 
         if ($proxies = config('app.trusted_proxies')) {
             TrustProxies::at($proxies === '*' ? '*' : array_map('trim', explode(',', $proxies)));

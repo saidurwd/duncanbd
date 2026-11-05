@@ -43,6 +43,20 @@
         @can('settings.manage'){!! $link('admin.settings.edit', 'bi-gear', 'Settings', $is('admin.settings.*')) !!}{!! $link('admin.privacy.index', 'bi-person-lock', 'Privacy tools', $is('admin.privacy.*')) !!}@endcan
     @endcanany
 
+    @canany(['audit.view', 'system.manage'])
+        <li class="nav-header">SECURITY &amp; AUDIT</li>
+        @can('audit.view')
+            {!! $link('admin.audit.audit', 'bi-journal-check', 'Audit log', $is('admin.audit.audit', 'admin.audit.show')) !!}
+            {!! $link('admin.audit.activity', 'bi-activity', 'Activity log', $is('admin.audit.activity')) !!}
+            {!! $link('admin.audit.logins', 'bi-box-arrow-in-right', 'Login history', $is('admin.audit.logins')) !!}
+            {!! $link('admin.audit.events', 'bi-shield-exclamation', 'Security events', $is('admin.audit.events')) !!}
+        @endcan
+        @can('system.manage')
+            {!! $link('admin.system.health', 'bi-heart-pulse', 'System health', $is('admin.system.health')) !!}
+            {!! $link('admin.system.about', 'bi-info-circle', 'About', $is('admin.system.about')) !!}
+        @endcan
+    @endcanany
+
     <li class="nav-header">ACCOUNT</li>
     {!! $link('admin.security', 'bi-shield-lock', 'My security', $is('admin.security')) !!}
 </ul>

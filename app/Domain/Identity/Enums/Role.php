@@ -38,7 +38,7 @@ enum Role: string
                 'settings.manage', 'menus.manage', 'seo.manage',
                 'pages.publish', 'pages.edit', 'news.edit',
                 'documents.investor.manage', 'documents.general.manage',
-                'media.manage', 'careers.manage', 'enquiries.manage', 'audit.view',
+                'media.manage', 'careers.manage', 'enquiries.manage', 'audit.view', 'system.manage',
             ],
             self::Editor => [
                 'pages.publish', 'pages.edit', 'news.edit',
