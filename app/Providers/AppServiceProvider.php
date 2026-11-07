@@ -48,6 +48,12 @@ class AppServiceProvider extends ServiceProvider
             $this->app->resolving('mail.manager', fn () => $this->app->make(MailConfigurator::class)->apply());
         }
 
+        // Production is HTTPS-only. Without this, asset()/Vite/url() emit http:// links when APP_URL is wrong or the
+        // proxy scheme is not detected, and browsers block them as mixed content (page renders unstyled).
+        if ($this->app->environment('production')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         // After sign-in Fortify redirects here; keep it in step with the configured admin path.
         config(['fortify.home' => '/'.config('admin.path')]);
 
